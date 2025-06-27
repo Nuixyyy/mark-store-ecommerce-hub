@@ -1,21 +1,21 @@
 
 import React, { useState } from 'react';
-import { Home, ChevronDown, Star, Plus, Category } from 'lucide-react';
+import { Home, ChevronDown, Star, Plus, Grid3X3 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { useToast } from '@/hooks/use-toast';
-import type { Category as CategoryType, User } from '@/types';
+import { FrontendCategory, FrontendUser } from '@/lib/typeAdapters';
 
 interface NavigationProps {
-  categories: CategoryType[];
+  categories: FrontendCategory[];
   selectedCategory: string | null;
   onCategorySelect: (category: string | null) => void;
   onReviewsClick: () => void;
   onAddCategory: (name: string) => void;
-  user: User | null;
+  user: FrontendUser | null;
 }
 
 const Navigation: React.FC<NavigationProps> = ({
@@ -76,7 +76,7 @@ const Navigation: React.FC<NavigationProps> = ({
                     className="flex flex-col items-center space-y-1 text-purple-200 hover:text-white hover:bg-purple-600/40 rounded-2xl px-4 py-3 transition-all duration-300 group"
                   >
                     <div className="flex items-center space-x-1">
-                      <Category className="h-5 w-5 group-hover:scale-110 transition-transform" />
+                      <Grid3X3 className="h-5 w-5 group-hover:scale-110 transition-transform" />
                       <ChevronDown className="h-3 w-3 group-hover:rotate-180 transition-transform" />
                     </div>
                     <span className="text-xs font-medium">التصنيفات</span>

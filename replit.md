@@ -1,0 +1,118 @@
+# Overview
+
+This is a full-stack web application built with React frontend and Express.js backend, featuring an e-commerce platform with Arabic language support. The application includes user management, product catalog, shopping cart functionality, and administrative features. It uses a modern tech stack with TypeScript, Tailwind CSS, and shadcn/ui components for the frontend, and Express with Drizzle ORM for the backend.
+
+# System Architecture
+
+## Frontend Architecture
+- **Framework**: React 18 with TypeScript
+- **Routing**: React Router DOM for client-side navigation
+- **Styling**: Tailwind CSS with shadcn/ui component library
+- **State Management**: React Query for server state, local React state for UI
+- **UI Components**: Radix UI primitives with custom styling
+- **Build Tool**: Vite for development and production builds
+
+## Backend Architecture
+- **Framework**: Express.js with TypeScript
+- **Database**: PostgreSQL with Drizzle ORM
+- **Development Storage**: In-memory storage (MemStorage) for development
+- **Session Management**: Prepared for PostgreSQL-based sessions
+- **API Design**: RESTful API with /api prefix
+
+## Development Setup
+- **Environment**: Replit with Node.js 20
+- **Development Server**: Vite dev server with HMR
+- **Database**: PostgreSQL 16 (configured but not yet fully implemented)
+- **Build Process**: Vite for frontend, esbuild for backend
+
+# Key Components
+
+## Frontend Components
+- **Product Management**: ProductCard component for displaying products
+- **Shopping Cart**: Cart component with quantity management
+- **User Authentication**: Header component with login/register functionality
+- **Admin Panel**: AdminPanel component for product and category management
+- **Search & Navigation**: SearchBar and Navigation components
+- **Order Processing**: OrderForm component for checkout
+- **Reviews System**: Reviews component for customer feedback
+
+## Backend Components
+- **Storage Interface**: IStorage interface with MemStorage implementation
+- **User Management**: User schema and CRUD operations
+- **Route Registration**: Modular route registration system
+- **Development Server**: Vite integration for development mode
+
+## Database Schema
+- **Users Table**: Contains user authentication and profile data
+  - id (serial primary key)
+  - username (unique text)
+  - password (text)
+
+# Data Flow
+
+## Frontend to Backend
+1. React components make API calls using fetch/React Query
+2. API routes prefixed with /api handle requests
+3. Storage layer manages data persistence
+4. Responses sent back as JSON
+
+## State Management
+1. Local storage used for persistence in development
+2. React state manages UI interactions
+3. React Query handles server state caching and synchronization
+4. Form state managed with React Hook Form
+
+## Authentication Flow
+1. User submits login/register form
+2. Frontend validates and stores user data locally (development)
+3. User state managed in React context
+4. Admin privileges determined by user.isAdmin flag
+
+# External Dependencies
+
+## Frontend Dependencies
+- **UI Framework**: React, React DOM, React Router
+- **UI Components**: Radix UI primitives, shadcn/ui components
+- **Styling**: Tailwind CSS, class-variance-authority, clsx
+- **State Management**: @tanstack/react-query, react-hook-form
+- **Utilities**: date-fns, lucide-react icons
+
+## Backend Dependencies
+- **Server**: Express.js, TypeScript runtime (tsx)
+- **Database**: Drizzle ORM, @neondatabase/serverless
+- **Validation**: Zod, drizzle-zod
+- **Development**: Vite for dev server integration
+
+## Development Tools
+- **Build**: Vite, esbuild, TypeScript compiler
+- **Database**: Drizzle Kit for migrations and schema management
+- **Replit Integration**: Cartographer plugin, runtime error overlay
+
+# Deployment Strategy
+
+## Production Build
+1. Frontend built with Vite to `dist/public`
+2. Backend bundled with esbuild to `dist/index.js`
+3. Static files served from build output
+4. Environment variables for database connection
+
+## Development Workflow
+1. `npm run dev` starts development server
+2. Vite handles frontend HMR and development serving
+3. Express server runs on port 5000
+4. Database migrations with `npm run db:push`
+
+## Environment Configuration
+- **Development**: Uses Vite dev server with middleware mode
+- **Production**: Serves static files from dist directory
+- **Database**: PostgreSQL connection via DATABASE_URL environment variable
+- **Replit**: Configured for autoscale deployment
+
+# Changelog
+
+Changelog:
+- June 27, 2025. Initial setup
+
+# User Preferences
+
+Preferred communication style: Simple, everyday language.

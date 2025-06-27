@@ -3,12 +3,12 @@ import React from 'react';
 import { ShoppingCart } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardFooter } from '@/components/ui/card';
-import type { Product } from '@/types';
+import { FrontendProduct } from '@/lib/typeAdapters';
 
 interface ProductCardProps {
-  product: Product;
-  onAddToCart: (product: Product) => void;
-  onEdit?: (product: Product) => void;
+  product: FrontendProduct;
+  onAddToCart: (product: FrontendProduct) => void;
+  onEdit?: (product: FrontendProduct) => void;
   onDelete?: (productId: string) => void;
   isAdmin?: boolean;
 }

@@ -2,6 +2,22 @@ import React, { useState, useEffect } from 'react';
 import { Plus } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useToast } from '@/hooks/use-toast';
+import { useQuery, useMutation } from '@tanstack/react-query';
+import { queryClient, apiRequest } from '@/lib/queryClient';
+import { 
+  FrontendProduct, 
+  FrontendCartItem, 
+  FrontendUser, 
+  FrontendCategory, 
+  FrontendReview,
+  convertProductFromBackend,
+  convertUserFromBackend,
+  convertReviewFromBackend,
+  convertCategoryFromBackend,
+  convertProductToBackend,
+  convertCategoryToBackend,
+  convertReviewToBackend
+} from '@/lib/typeAdapters';
 import Header from '@/components/Header';
 import SearchBar from '@/components/SearchBar';
 import ProductCard from '@/components/ProductCard';
@@ -11,55 +27,52 @@ import AdminPanel from '@/components/AdminPanel';
 import Navigation from '@/components/Navigation';
 import Reviews from '@/components/Reviews';
 import Footer from '@/components/Footer';
-import type { Product, CartItem, User, Review, Category } from '@/types';
+import type { Product as BackendProduct, User as BackendUser, Review as BackendReview, Category as BackendCategory } from '@shared/schema';
 
 const Index = () => {
-  const [user, setUser] = useState<User | null>(null);
-  const [products, setProducts] = useState<Product[]>([]);
-  const [categories, setCategories] = useState<Category[]>([
-    { id: '1', name: 'إلكترونيات' },
-    { id: '2', name: 'ملابس' },
-    { id: '3', name: 'منزل وحديقة' }
-  ]);
-  const [reviews, setReviews] = useState<Review[]>([]);
-  const [cartItems, setCartItems] = useState<CartItem[]>([]);
+  const [user, setUser] = useState<FrontendUser | null>(null);
+  const [cartItems, setCartItems] = useState<FrontendCartItem[]>([]);
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
   const [showCart, setShowCart] = useState(false);
   const [showAdminPanel, setShowAdminPanel] = useState(false);
   const [showReviews, setShowReviews] = useState(false);
-  const [editingProduct, setEditingProduct] = useState<Product | null>(null);
+  const [editingProduct, setEditingProduct] = useState<FrontendProduct | null>(null);
   const [showOrderForm, setShowOrderForm] = useState(false);
   const { toast } = useToast();
 
-  // Load data from localStorage on component mount
+  // Fetch data with React Query
+  const { data: backendProducts = [], isLoading: productsLoading } = useQuery({
+    queryKey: ['/api/products'],
+  });
+
+  const { data: backendCategories = [], isLoading: categoriesLoading } = useQuery({
+    queryKey: ['/api/categories'],
+  });
+
+  const { data: backendReviews = [], isLoading: reviewsLoading } = useQuery({
+    queryKey: ['/api/reviews'],
+  });
+
+  // Convert backend data to frontend format
+  const products: FrontendProduct[] = (backendProducts as BackendProduct[]).map(p => 
+    convertProductFromBackend(p, backendCategories as BackendCategory[])
+  );
+
+  const categories: FrontendCategory[] = (backendCategories as BackendCategory[]).map(convertCategoryFromBackend);
+
+  const reviews: FrontendReview[] = (backendReviews as BackendReview[]).map(convertReviewFromBackend);
+
+  // Load cart and user from localStorage (client-side only data)
   useEffect(() => {
     const savedUser = localStorage.getItem('currentUser');
-    const savedProducts = localStorage.getItem('products');
-    const savedCategories = localStorage.getItem('categories');
-    const savedReviews = localStorage.getItem('reviews');
     const savedCartItems = localStorage.getItem('cartItems');
 
     if (savedUser) setUser(JSON.parse(savedUser));
-    if (savedProducts) setProducts(JSON.parse(savedProducts));
-    if (savedCategories) setCategories(JSON.parse(savedCategories));
-    if (savedReviews) setReviews(JSON.parse(savedReviews));
     if (savedCartItems) setCartItems(JSON.parse(savedCartItems));
   }, []);
 
-  // Save data to localStorage whenever state changes
-  useEffect(() => {
-    localStorage.setItem('products', JSON.stringify(products));
-  }, [products]);
-
-  useEffect(() => {
-    localStorage.setItem('categories', JSON.stringify(categories));
-  }, [categories]);
-
-  useEffect(() => {
-    localStorage.setItem('reviews', JSON.stringify(reviews));
-  }, [reviews]);
-
+  // Save cart and user to localStorage
   useEffect(() => {
     localStorage.setItem('cartItems', JSON.stringify(cartItems));
   }, [cartItems]);
@@ -72,7 +85,65 @@ const Index = () => {
     }
   }, [user]);
 
-  const handleLogin = (newUser: User) => {
+  // Mutations for API calls
+  const createProductMutation = useMutation({
+    mutationFn: (productData: Omit<FrontendProduct, 'id'>) => 
+      apiRequest('/api/products', {
+        method: 'POST',
+        body: JSON.stringify(convertProductToBackend(productData, backendCategories as BackendCategory[]))
+      }),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['/api/products'] });
+      toast({ title: "Product added successfully" });
+    }
+  });
+
+  const updateProductMutation = useMutation({
+    mutationFn: ({ id, ...productData }: FrontendProduct) => 
+      apiRequest(`/api/products/${id}`, {
+        method: 'PUT',
+        body: JSON.stringify(convertProductToBackend(productData, backendCategories as BackendCategory[]))
+      }),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['/api/products'] });
+      toast({ title: "Product updated successfully" });
+    }
+  });
+
+  const deleteProductMutation = useMutation({
+    mutationFn: (productId: string) => 
+      apiRequest(`/api/products/${productId}`, { method: 'DELETE' }),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['/api/products'] });
+      toast({ title: "Product deleted successfully" });
+    }
+  });
+
+  const createCategoryMutation = useMutation({
+    mutationFn: (categoryData: Omit<FrontendCategory, 'id'>) => 
+      apiRequest('/api/categories', {
+        method: 'POST',
+        body: JSON.stringify(convertCategoryToBackend(categoryData))
+      }),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['/api/categories'] });
+      toast({ title: "Category added successfully" });
+    }
+  });
+
+  const createReviewMutation = useMutation({
+    mutationFn: (reviewData: Omit<FrontendReview, 'id' | 'date'>) => 
+      apiRequest('/api/reviews', {
+        method: 'POST',
+        body: JSON.stringify(convertReviewToBackend(reviewData))
+      }),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['/api/reviews'] });
+      toast({ title: "Review added successfully" });
+    }
+  });
+
+  const handleLogin = (newUser: FrontendUser) => {
     setUser(newUser);
   };
 
@@ -81,33 +152,25 @@ const Index = () => {
     setCartItems([]);
   };
 
-  const handleAddProduct = (productData: Omit<Product, 'id'>) => {
-    const newProduct: Product = {
-      ...productData,
-      id: Date.now().toString()
-    };
-    setProducts(prev => [...prev, newProduct]);
+  const handleAddProduct = (productData: Omit<FrontendProduct, 'id'>) => {
+    createProductMutation.mutate(productData);
   };
 
-  const handleEditProduct = (updatedProduct: Product) => {
-    setProducts(prev => prev.map(p => p.id === updatedProduct.id ? updatedProduct : p));
+  const handleEditProduct = (updatedProduct: FrontendProduct) => {
+    updateProductMutation.mutate(updatedProduct);
     setEditingProduct(null);
   };
 
   const handleDeleteProduct = (productId: string) => {
-    setProducts(prev => prev.filter(p => p.id !== productId));
+    deleteProductMutation.mutate(productId);
     setCartItems(prev => prev.filter(item => item.id !== productId));
   };
 
   const handleAddCategory = (name: string) => {
-    const newCategory: Category = {
-      id: Date.now().toString(),
-      name
-    };
-    setCategories(prev => [...prev, newCategory]);
+    createCategoryMutation.mutate({ name });
   };
 
-  const handleAddToCart = (product: Product) => {
+  const handleAddToCart = (product: FrontendProduct) => {
     if (!user) {
       toast({
         title: "يرجى تسجيل الدخول أولاً",
@@ -161,13 +224,8 @@ const Index = () => {
     setShowOrderForm(false);
   };
 
-  const handleAddReview = (reviewData: Omit<Review, 'id' | 'date'>) => {
-    const newReview: Review = {
-      ...reviewData,
-      id: Date.now().toString(),
-      date: new Date().toLocaleDateString('ar')
-    };
-    setReviews(prev => [newReview, ...prev]);
+  const handleAddReview = (reviewData: Omit<FrontendReview, 'id' | 'date'>) => {
+    createReviewMutation.mutate(reviewData);
   };
 
   const filteredProducts = products.filter(product => {

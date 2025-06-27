@@ -9,14 +9,14 @@ import { Textarea } from '@/components/ui/textarea';
 import { Card, CardContent } from '@/components/ui/card';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { useToast } from '@/hooks/use-toast';
-import type { Review, User } from '@/types';
+import { FrontendReview, FrontendUser } from '@/lib/typeAdapters';
 
 interface ReviewsProps {
   isOpen: boolean;
   onClose: () => void;
-  reviews: Review[];
-  onAddReview: (review: Omit<Review, 'id' | 'date'>) => void;
-  user: User | null;
+  reviews: FrontendReview[];
+  onAddReview: (review: Omit<FrontendReview, 'id' | 'date'>) => void;
+  user: FrontendUser | null;
 }
 
 const Reviews: React.FC<ReviewsProps> = ({ isOpen, onClose, reviews, onAddReview, user }) => {

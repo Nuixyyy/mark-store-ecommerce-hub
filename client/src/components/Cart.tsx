@@ -5,16 +5,16 @@ import { Button } from '@/components/ui/button';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { Separator } from '@/components/ui/separator';
-import type { CartItem, User } from '@/types';
+import { FrontendCartItem, FrontendUser } from '@/lib/typeAdapters';
 
 interface CartProps {
   isOpen: boolean;
   onClose: () => void;
-  items: CartItem[];
+  items: FrontendCartItem[];
   onUpdateQuantity: (productId: string, quantity: number) => void;
   onRemoveItem: (productId: string) => void;
   onCheckout: () => void;
-  user: User | null;
+  user: FrontendUser | null;
 }
 
 const Cart: React.FC<CartProps> = ({

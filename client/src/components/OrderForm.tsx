@@ -8,13 +8,13 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Textarea } from '@/components/ui/textarea';
 import { Separator } from '@/components/ui/separator';
 import { useToast } from '@/hooks/use-toast';
-import type { CartItem, User } from '@/types';
+import { FrontendCartItem, FrontendUser } from '@/lib/typeAdapters';
 
 interface OrderFormProps {
   isOpen: boolean;
   onClose: () => void;
-  items: CartItem[];
-  user: User | null;
+  items: FrontendCartItem[];
+  user: FrontendUser | null;
   onOrderConfirm: () => void;
 }
 

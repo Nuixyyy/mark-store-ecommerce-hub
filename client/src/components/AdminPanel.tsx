@@ -8,16 +8,16 @@ import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { useToast } from '@/hooks/use-toast';
-import type { Product, Category } from '@/types';
+import { FrontendProduct, FrontendCategory } from '@/lib/typeAdapters';
 
 interface AdminPanelProps {
   isOpen: boolean;
   onClose: () => void;
-  categories: Category[];
-  onAddProduct: (product: Omit<Product, 'id'>) => void;
-  onEditProduct: (product: Product) => void;
+  categories: FrontendCategory[];
+  onAddProduct: (product: Omit<FrontendProduct, 'id'>) => void;
+  onEditProduct: (product: FrontendProduct) => void;
   onAddCategory: (name: string) => void;
-  editingProduct?: Product | null;
+  editingProduct?: FrontendProduct | null;
 }
 
 const AdminPanel: React.FC<AdminPanelProps> = ({

@@ -5,11 +5,11 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/u
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { useToast } from '@/hooks/use-toast';
-import type { User as UserType } from '@/types';
+import { FrontendUser } from '@/lib/typeAdapters';
 
 interface HeaderProps {
-  user: UserType | null;
-  onLogin: (user: UserType) => void;
+  user: FrontendUser | null;
+  onLogin: (user: FrontendUser) => void;
   onLogout: () => void;
   cartItemsCount: number;
   onCartClick: () => void;
@@ -45,11 +45,10 @@ const Header: React.FC<HeaderProps> = ({ user, onLogin, onLogout, cartItemsCount
       return;
     }
 
-    const newUser: UserType = {
+    const newUser: FrontendUser = {
       id: Date.now().toString(),
       fullName: 'اسم المستخدم',
-      email: loginForm.email,
-      password: loginForm.password,
+      phoneNumber: loginForm.email, // Using email as phone for demo
       isAdmin: loginForm.email === 'admin@example.com'
     };
     onLogin(newUser);
@@ -81,11 +80,10 @@ const Header: React.FC<HeaderProps> = ({ user, onLogin, onLogout, cartItemsCount
       return;
     }
 
-    const newUser: UserType = {
+    const newUser: FrontendUser = {
       id: Date.now().toString(),
       fullName: registerForm.fullName,
-      email: registerForm.email,
-      password: registerForm.password,
+      phoneNumber: registerForm.email, // Using email as phone for demo
       isAdmin: false
     };
     onLogin(newUser);
