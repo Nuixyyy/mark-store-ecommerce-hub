@@ -57,22 +57,7 @@ const Navigation: React.FC<NavigationProps> = ({
       <nav className="fixed bottom-0 left-0 right-0 bg-gradient-to-t from-purple-900/98 via-purple-800/95 to-purple-700/90 backdrop-blur-lg border-t border-purple-500/30 z-50 shadow-2xl rounded-t-3xl">
         <div className="max-w-7xl mx-auto px-6">
           <div className="flex items-center justify-between py-4">
-            {/* Left side - Customer Reviews */}
-            <div className="flex items-center">
-              <Button
-                variant="ghost"
-                onClick={onReviewsClick}
-                className="flex flex-col items-center space-y-1 text-purple-200 hover:text-white hover:bg-purple-600/40 rounded-3xl px-4 py-3 transition-all duration-300 group"
-              >
-                <Star className="h-5 w-5 group-hover:scale-110 transition-transform" />
-                <span className="text-xs font-medium">تقييمات العملاء</span>
-              </Button>
-            </div>
-
-            {/* Separator Line */}
-            <div className="w-px bg-purple-400/50 h-12"></div>
-
-            {/* Right side - Home and Categories */}
+            {/* Left side - Home and Categories */}
             <div className="flex items-center space-x-3">
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
@@ -147,6 +132,21 @@ const Navigation: React.FC<NavigationProps> = ({
               >
                 <Home className="h-5 w-5 group-hover:scale-110 transition-transform" />
                 <span className="text-xs font-medium">الرئيسية</span>
+              </Button>
+            </div>
+
+            {/* Separator Line */}
+            <div className="w-px bg-purple-400/50 h-12"></div>
+
+            {/* Right side - Customer Reviews */}
+            <div className="flex items-center">
+              <Button
+                variant="ghost"
+                onClick={onReviewsClick}
+                className="flex flex-col items-center space-y-1 text-purple-200 hover:text-white hover:bg-purple-600/40 rounded-3xl px-4 py-3 transition-all duration-300 group"
+              >
+                <Star className="h-5 w-5 group-hover:scale-110 transition-transform" />
+                <span className="text-xs font-medium">تقييمات العملاء</span>
               </Button>
             </div>
           </div>

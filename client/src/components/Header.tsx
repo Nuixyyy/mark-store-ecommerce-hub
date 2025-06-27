@@ -29,11 +29,33 @@ const Header: React.FC<HeaderProps> = ({ user, onLogin, onLogout, cartItemsCount
   const { toast } = useToast();
 
   const handleLoginFormChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setLoginForm({ ...loginForm, [e.target.name]: e.target.value });
+    const { name, value } = e.target;
+    
+    // للتحقق من رقم الهاتف - فقط أرقام وحد أقصى 11 رقم
+    if (name === 'phoneNumber') {
+      const numbersOnly = value.replace(/\D/g, '');
+      if (numbersOnly.length <= 11) {
+        setLoginForm({ ...loginForm, [name]: numbersOnly });
+      }
+      return;
+    }
+    
+    setLoginForm({ ...loginForm, [name]: value });
   };
 
   const handleRegisterFormChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setRegisterForm({ ...registerForm, [e.target.name]: e.target.value });
+    const { name, value } = e.target;
+    
+    // للتحقق من رقم الهاتف - فقط أرقام وحد أقصى 11 رقم
+    if (name === 'phoneNumber') {
+      const numbersOnly = value.replace(/\D/g, '');
+      if (numbersOnly.length <= 11) {
+        setRegisterForm({ ...registerForm, [name]: numbersOnly });
+      }
+      return;
+    }
+    
+    setRegisterForm({ ...registerForm, [name]: value });
   };
 
   const handleLogin = () => {
@@ -46,6 +68,17 @@ const Header: React.FC<HeaderProps> = ({ user, onLogin, onLogout, cartItemsCount
       toast({
         title: "خطأ",
         description: "يرجى ملء جميع الحقول",
+        variant: "destructive"
+      });
+      return;
+    }
+
+    // التحقق من رقم الهاتف (11 رقم فقط)
+    const phoneRegex = /^\d{11}$/;
+    if (!phoneRegex.test(loginForm.phoneNumber)) {
+      toast({
+        title: "خطأ",
+        description: "رقم الهاتف يجب أن يكون 11 رقم بالضبط",
         variant: "destructive"
       });
       return;
@@ -90,6 +123,17 @@ const Header: React.FC<HeaderProps> = ({ user, onLogin, onLogout, cartItemsCount
       toast({
         title: "خطأ",
         description: "يرجى إدخال الاسم الثلاثي كاملاً",
+        variant: "destructive"
+      });
+      return;
+    }
+
+    // التحقق من رقم الهاتف (11 رقم فقط)
+    const phoneRegex = /^\d{11}$/;
+    if (!phoneRegex.test(registerForm.phoneNumber)) {
+      toast({
+        title: "خطأ",
+        description: "رقم الهاتف يجب أن يكون 11 رقم بالضبط",
         variant: "destructive"
       });
       return;
@@ -149,7 +193,7 @@ const Header: React.FC<HeaderProps> = ({ user, onLogin, onLogout, cartItemsCount
             {/* Center - Brand */}
             <div className="text-center">
               <h1 className="text-2xl sm:text-3xl font-bold bg-gradient-to-r from-white via-purple-200 to-white bg-clip-text text-transparent">
-                مارك ستور
+                MARKSTOR
               </h1>
               <p className="text-xs text-purple-200 mt-1 hidden sm:block">
                 متجر الكتروني لبيع الاكسسوارات الكيمنك
