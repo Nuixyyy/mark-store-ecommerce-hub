@@ -21,7 +21,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
   isAdmin 
 }) => {
   return (
-    <Card className="bg-gradient-to-br from-purple-800/40 to-purple-900/60 border-purple-600/30 hover:from-purple-700/50 hover:to-purple-800/70 transition-all duration-300 overflow-hidden backdrop-blur-sm hover:scale-105 hover:shadow-xl hover:shadow-purple-500/20">
+    <Card className="border-purple-600/30 hover:border-purple-500/50 transition-all duration-300 overflow-hidden backdrop-blur-sm hover:scale-105 hover:shadow-xl hover:shadow-purple-500/20" style={{backgroundColor: '#1a012a'}}>
       <div className="aspect-square overflow-hidden">
         <img
           src={product.image}

@@ -136,6 +136,10 @@ This is a full-stack web application built with React frontend and Express.js ba
   - Applied purple background color #1a012a to all dialog windows (login, cart, admin panel, order form, reviews)
   - Made bottom navigation bar more rounded with rounded-t-3xl for smoother appearance
   - Enhanced all dialog forms with consistent purple theme and rounded corners
+  - Fixed login/registration form validation by separating login and register modes with toggle buttons
+  - Applied purple background #1a012a to product cards for consistent theme
+  - Removed order confirmation requirement for logged-in users - anyone can place orders
+  - Enhanced form validation with diagnostic logging for troubleshooting
 
 # User Preferences
 

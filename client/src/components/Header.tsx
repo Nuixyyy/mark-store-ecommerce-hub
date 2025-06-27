@@ -18,6 +18,7 @@ interface HeaderProps {
 const Header: React.FC<HeaderProps> = ({ user, onLogin, onLogout, cartItemsCount, onCartClick }) => {
   const [showLogin, setShowLogin] = useState(false);
   const [showRegister, setShowRegister] = useState(false);
+  const [isLoginMode, setIsLoginMode] = useState(true);
   const [loginForm, setLoginForm] = useState({ phoneNumber: '', password: '' });
   const [registerForm, setRegisterForm] = useState({
     fullName: '',
@@ -36,7 +37,12 @@ const Header: React.FC<HeaderProps> = ({ user, onLogin, onLogout, cartItemsCount
   };
 
   const handleLogin = () => {
+    console.log("Login form data:", loginForm);
+    console.log("Phone number:", loginForm.phoneNumber, "Length:", loginForm.phoneNumber.length);
+    console.log("Password:", loginForm.password, "Length:", loginForm.password.length);
+    
     if (!loginForm.phoneNumber.trim() || !loginForm.password.trim()) {
+      console.log("Validation failed - empty fields");
       toast({
         title: "خطأ",
         description: "يرجى ملء جميع الحقول",
@@ -62,7 +68,14 @@ const Header: React.FC<HeaderProps> = ({ user, onLogin, onLogout, cartItemsCount
   };
 
   const handleRegister = () => {
+    console.log("Register form data:", registerForm);
+    console.log("Full name:", registerForm.fullName, "Length:", registerForm.fullName.length);
+    console.log("Phone number:", registerForm.phoneNumber, "Length:", registerForm.phoneNumber.length);
+    console.log("Password:", registerForm.password, "Length:", registerForm.password.length);
+    console.log("Confirm password:", registerForm.confirmPassword, "Length:", registerForm.confirmPassword.length);
+    
     if (!registerForm.fullName.trim() || !registerForm.phoneNumber.trim() || !registerForm.password.trim() || !registerForm.confirmPassword.trim()) {
+      console.log("Validation failed - empty fields");
       toast({
         title: "خطأ",
         description: "يرجى ملء جميع الحقول",
@@ -208,66 +221,153 @@ const Header: React.FC<HeaderProps> = ({ user, onLogin, onLogout, cartItemsCount
             </DialogTitle>
           </DialogHeader>
           <div className="space-y-6 pt-2">
-            <div className="space-y-3">
-              <Label htmlFor="fullName" className="text-white text-right block">
-                الاسم الثلاثي
-              </Label>
-              <Input
-                id="fullName"
-                name="fullName"
-                value={registerForm.fullName}
-                onChange={handleRegisterFormChange}
-                className="bg-purple-800/30 border-purple-600/50 text-white rounded-xl h-14 text-right px-4"
-                placeholder=""
-              />
+            {/* Toggle between Login/Register */}
+            <div className="flex bg-purple-800/30 rounded-xl p-1">
+              <button
+                onClick={() => setIsLoginMode(true)}
+                className={`flex-1 py-3 px-4 rounded-lg text-sm font-medium transition-all ${
+                  isLoginMode 
+                    ? 'bg-purple-600 text-white shadow-lg' 
+                    : 'text-purple-300 hover:text-white'
+                }`}
+              >
+                دخول
+              </button>
+              <button
+                onClick={() => setIsLoginMode(false)}
+                className={`flex-1 py-3 px-4 rounded-lg text-sm font-medium transition-all ${
+                  !isLoginMode 
+                    ? 'bg-purple-600 text-white shadow-lg' 
+                    : 'text-purple-300 hover:text-white'
+                }`}
+              >
+                تسجيل
+              </button>
             </div>
-            
-            <div className="space-y-3">
-              <Label htmlFor="phoneNumber" className="text-white text-right block">
-                رقم الهاتف (11 رقماً بعد +964)
-              </Label>
-              <div className="flex rounded-xl overflow-hidden bg-purple-800/30 border border-purple-600/50">
-                <div className="bg-purple-700/50 px-4 py-4 text-white font-semibold border-l border-purple-500/50">
-                  +964
+
+            {isLoginMode ? (
+              /* Login Form */
+              <>
+                <div className="space-y-3">
+                  <Label htmlFor="loginPhone" className="text-white text-right block">
+                    رقم الهاتف
+                  </Label>
+                  <div className="flex rounded-xl overflow-hidden bg-purple-800/30 border border-purple-600/50">
+                    <div className="bg-purple-700/50 px-4 py-4 text-white font-semibold border-l border-purple-500/50">
+                      +964
+                    </div>
+                    <Input
+                      id="loginPhone"
+                      name="phoneNumber"
+                      value={loginForm.phoneNumber}
+                      onChange={handleLoginFormChange}
+                      type="tel"
+                      className="bg-transparent border-0 text-white rounded-none h-14 text-right px-4 flex-1"
+                      placeholder="1112233444"
+                    />
+                  </div>
                 </div>
-                <Input
-                  id="phoneNumber"
-                  name="phoneNumber"
-                  value={registerForm.phoneNumber}
-                  onChange={handleRegisterFormChange}
-                  type="tel"
-                  className="bg-transparent border-0 text-white rounded-none h-14 text-right px-4 flex-1"
-                  placeholder="7701234567"
-                />
-              </div>
-              <p className="text-purple-300 text-sm text-right">
-                الرجاء إدخال 11 رقماً فقط
-              </p>
-            </div>
 
-            <div className="space-y-3">
-              <Label htmlFor="password" className="text-white text-right block">
-                كلمة المرور
-              </Label>
-              <Input
-                id="password"
-                name="password"
-                value={registerForm.password}
-                onChange={handleRegisterFormChange}
-                type="password"
-                className="bg-purple-800/30 border-purple-600/50 text-white rounded-xl h-14 text-right px-4"
-                placeholder=""
-              />
-            </div>
+                <div className="space-y-3">
+                  <Label htmlFor="loginPassword" className="text-white text-right block">
+                    كلمة المرور
+                  </Label>
+                  <Input
+                    id="loginPassword"
+                    name="password"
+                    value={loginForm.password}
+                    onChange={handleLoginFormChange}
+                    type="password"
+                    className="bg-purple-800/30 border-purple-600/50 text-white rounded-xl h-14 text-right px-4"
+                    placeholder=""
+                  />
+                </div>
 
+                <Button 
+                  onClick={handleLogin} 
+                  className="w-full bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 rounded-xl h-14 text-lg font-semibold shadow-lg"
+                >
+                  دخول
+                </Button>
+              </>
+            ) : (
+              /* Register Form */
+              <>
+                <div className="space-y-3">
+                  <Label htmlFor="fullName" className="text-white text-right block">
+                    الاسم الثلاثي
+                  </Label>
+                  <Input
+                    id="fullName"
+                    name="fullName"
+                    value={registerForm.fullName}
+                    onChange={handleRegisterFormChange}
+                    className="bg-purple-800/30 border-purple-600/50 text-white rounded-xl h-14 text-right px-4"
+                    placeholder="محمد أحمد علي"
+                  />
+                </div>
+                
+                <div className="space-y-3">
+                  <Label htmlFor="phoneNumber" className="text-white text-right block">
+                    رقم الهاتف (11 رقماً بعد +964)
+                  </Label>
+                  <div className="flex rounded-xl overflow-hidden bg-purple-800/30 border border-purple-600/50">
+                    <div className="bg-purple-700/50 px-4 py-4 text-white font-semibold border-l border-purple-500/50">
+                      +964
+                    </div>
+                    <Input
+                      id="phoneNumber"
+                      name="phoneNumber"
+                      value={registerForm.phoneNumber}
+                      onChange={handleRegisterFormChange}
+                      type="tel"
+                      className="bg-transparent border-0 text-white rounded-none h-14 text-right px-4 flex-1"
+                      placeholder="7701234567"
+                    />
+                  </div>
+                  <p className="text-purple-300 text-sm text-right">
+                    الرجاء إدخال 11 رقماً فقط
+                  </p>
+                </div>
 
+                <div className="space-y-3">
+                  <Label htmlFor="password" className="text-white text-right block">
+                    كلمة المرور
+                  </Label>
+                  <Input
+                    id="password"
+                    name="password"
+                    value={registerForm.password}
+                    onChange={handleRegisterFormChange}
+                    type="password"
+                    className="bg-purple-800/30 border-purple-600/50 text-white rounded-xl h-14 text-right px-4"
+                    placeholder=""
+                  />
+                </div>
 
-            <Button 
-              onClick={handleRegister} 
-              className="w-full bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 rounded-xl h-14 text-lg font-semibold shadow-lg"
-            >
-              تأكيد التسجيل
-            </Button>
+                <div className="space-y-3">
+                  <Label htmlFor="confirmPassword" className="text-white text-right block">
+                    تأكيد كلمة المرور
+                  </Label>
+                  <Input
+                    id="confirmPassword"
+                    name="confirmPassword"
+                    value={registerForm.confirmPassword}
+                    onChange={handleRegisterFormChange}
+                    type="password"
+                    className="bg-purple-800/30 border-purple-600/50 text-white rounded-xl h-14 text-right px-4"
+                    placeholder=""
+                  />
+                </div>
+
+                <Button 
+                  onClick={handleRegister} 
+                  className="w-full bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 rounded-xl h-14 text-lg font-semibold shadow-lg"
+                >
+                  إنشاء حساب
+                </Button>
+              </>
+            )}
           </div>
         </DialogContent>
       </Dialog>
