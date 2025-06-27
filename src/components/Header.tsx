@@ -1,11 +1,9 @@
-
 import React, { useState } from 'react';
-import { ShoppingCart, User, LogOut } from 'lucide-react';
+import { ShoppingCart, User, LogOut, UserPlus } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { Badge } from '@/components/ui/badge';
 import { useToast } from '@/hooks/use-toast';
 import type { User as UserType } from '@/types';
 
@@ -18,153 +16,253 @@ interface HeaderProps {
 }
 
 const Header: React.FC<HeaderProps> = ({ user, onLogin, onLogout, cartItemsCount, onCartClick }) => {
-  const [showLoginDialog, setShowLoginDialog] = useState(false);
-  const [fullName, setFullName] = useState('');
-  const [phoneNumber, setPhoneNumber] = useState('+964 ');
+  const [showLogin, setShowLogin] = useState(false);
+  const [showRegister, setShowRegister] = useState(false);
+  const [loginForm, setLoginForm] = useState({ email: '', password: '' });
+  const [registerForm, setRegisterForm] = useState({
+    fullName: '',
+    email: '',
+    password: '',
+    confirmPassword: ''
+  });
   const { toast } = useToast();
 
+  const handleLoginFormChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setLoginForm({ ...loginForm, [e.target.name]: e.target.value });
+  };
+
+  const handleRegisterFormChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setRegisterForm({ ...registerForm, [e.target.name]: e.target.value });
+  };
+
   const handleLogin = () => {
-    if (!fullName.trim() || phoneNumber.length < 15) {
+    if (!loginForm.email.trim() || !loginForm.password.trim()) {
       toast({
-        title: "خطأ في البيانات",
-        description: "يرجى إدخال الاسم الثلاثي ورقم هاتف صحيح",
+        title: "خطأ",
+        description: "يرجى ملء جميع الحقول",
         variant: "destructive"
       });
       return;
     }
 
-    const isFirstUser = !localStorage.getItem('hasUsers');
     const newUser: UserType = {
       id: Date.now().toString(),
-      fullName: fullName.trim(),
-      phoneNumber,
-      isAdmin: isFirstUser
+      fullName: 'اسم المستخدم',
+      email: loginForm.email,
+      password: loginForm.password,
+      isAdmin: loginForm.email === 'admin@example.com'
     };
-
-    if (isFirstUser) {
-      localStorage.setItem('hasUsers', 'true');
-    }
-
     onLogin(newUser);
-    setShowLoginDialog(false);
-    setFullName('');
-    setPhoneNumber('+964 ');
-    
+    setLoginForm({ email: '', password: '' });
+    setShowLogin(false);
+
     toast({
       title: "تم تسجيل الدخول بنجاح",
-      description: isFirstUser ? "مرحباً بك كمدير الموقع" : "مرحباً بك في مارك ستور"
+      description: "مرحباً بك في المتجر",
     });
   };
 
-  const handlePhoneChange = (value: string) => {
-    const prefix = '+964 ';
-    if (!value.startsWith(prefix)) {
-      setPhoneNumber(prefix);
+  const handleRegister = () => {
+    if (!registerForm.fullName.trim() || !registerForm.email.trim() || !registerForm.password.trim() || !registerForm.confirmPassword.trim()) {
+      toast({
+        title: "خطأ",
+        description: "يرجى ملء جميع الحقول",
+        variant: "destructive"
+      });
       return;
     }
-    
-    const numbers = value.slice(prefix.length).replace(/\D/g, '');
-    if (numbers.length <= 10) {
-      setPhoneNumber(prefix + numbers);
+
+    if (registerForm.password !== registerForm.confirmPassword) {
+      toast({
+        title: "خطأ",
+        description: "كلمات المرور غير متطابقة",
+        variant: "destructive"
+      });
+      return;
     }
+
+    const newUser: UserType = {
+      id: Date.now().toString(),
+      fullName: registerForm.fullName,
+      email: registerForm.email,
+      password: registerForm.password,
+      isAdmin: false
+    };
+    onLogin(newUser);
+    setRegisterForm({ fullName: '', email: '', password: '', confirmPassword: '' });
+    setShowRegister(false);
+
+    toast({
+      title: "تم التسجيل بنجاح",
+      description: "تم إنشاء حسابك بنجاح",
+    });
   };
 
   return (
     <>
-      <header className="w-full bg-gradient-to-r from-purple-800 via-purple-700 to-purple-900 px-4 py-4">
-        <div className="max-w-7xl mx-auto flex items-center justify-between">
-          {/* Login/User Section */}
-          <div className="flex items-center space-x-4">
-            {user ? (
-              <div className="flex items-center space-x-2">
-                <div className="flex items-center space-x-2 bg-purple-900/50 px-3 py-2 rounded-lg backdrop-blur">
-                  <User className="h-5 w-5 text-purple-200" />
-                  <span className="text-white text-sm">{user.fullName}</span>
-                  {user.isAdmin && (
-                    <Badge variant="secondary" className="bg-purple-600 text-white">
-                      مدير
-                    </Badge>
-                  )}
-                </div>
-                <Button
-                  variant="ghost"
-                  size="sm"
-                  onClick={onLogout}
-                  className="text-purple-200 hover:text-white hover:bg-purple-800/50"
-                >
-                  <LogOut className="h-4 w-4" />
-                </Button>
-              </div>
-            ) : (
+      <header className="bg-gradient-to-r from-purple-900 via-purple-800 to-indigo-900 text-white shadow-2xl border-b border-purple-600/30">
+        <div className="max-w-7xl mx-auto px-4 py-4">
+          <div className="flex items-center justify-between">
+            {/* Left side - Cart */}
+            <div className="flex items-center">
               <Button
-                onClick={() => setShowLoginDialog(true)}
-                className="bg-purple-600 hover:bg-purple-700 text-white border-none"
+                onClick={onCartClick}
+                variant="ghost"
+                className="relative bg-purple-700/50 hover:bg-purple-600/70 rounded-2xl px-4 py-2 transition-all duration-300 shadow-lg hover:shadow-purple-500/30"
               >
-                <User className="h-4 w-4 mr-2" />
+                <ShoppingCart className="h-5 w-5" />
+                {cartItemsCount > 0 && (
+                  <span className="absolute -top-2 -right-2 bg-gradient-to-r from-red-500 to-pink-500 text-white text-xs rounded-full h-6 w-6 flex items-center justify-center font-bold shadow-lg animate-pulse">
+                    {cartItemsCount}
+                  </span>
+                )}
               </Button>
-            )}
-          </div>
+            </div>
 
-          {/* Logo */}
-          <div className="text-center">
-            <h1 className="text-3xl font-bold text-white">مارك ستور</h1>
-            <p className="text-purple-200 text-sm">Mark Store</p>
-          </div>
+            {/* Center - Logo/Title */}
+            <div className="text-center">
+              <h1 className="text-2xl font-bold bg-gradient-to-r from-purple-200 to-white bg-clip-text text-transparent">
+                متجر إلكتروني
+              </h1>
+              <p className="text-purple-300 text-sm">تسوق أفضل المنتجات</p>
+            </div>
 
-          {/* Cart */}
-          <div className="relative">
-            <Button
-              variant="ghost"
-              onClick={onCartClick}
-              className="text-purple-200 hover:text-white hover:bg-purple-800/50 p-2"
-            >
-              <ShoppingCart className="h-6 w-6" />
-              {cartItemsCount > 0 && (
-                <Badge 
-                  className="absolute -top-2 -right-2 bg-red-500 text-white min-w-[20px] h-5 rounded-full flex items-center justify-center text-xs"
-                >
-                  {cartItemsCount}
-                </Badge>
+            {/* Right side - User actions */}
+            <div className="flex items-center space-x-2">
+              {user ? (
+                <div className="flex items-center space-x-3">
+                  <div className="text-right">
+                    <p className="text-sm font-medium">{user.fullName}</p>
+                    {user.isAdmin && (
+                      <span className="text-xs bg-gradient-to-r from-yellow-400 to-orange-400 text-black px-2 py-1 rounded-full font-semibold">
+                        مدير
+                      </span>
+                    )}
+                  </div>
+                  <Button
+                    onClick={onLogout}
+                    variant="ghost"
+                    size="sm"
+                    className="bg-red-600/20 hover:bg-red-600/40 text-red-300 hover:text-red-200 rounded-2xl transition-all duration-300"
+                  >
+                    <LogOut className="h-4 w-4" />
+                  </Button>
+                </div>
+              ) : (
+                <div className="flex items-center space-x-2">
+                  <Button
+                    onClick={() => setShowRegister(true)}
+                    variant="ghost"
+                    size="sm"
+                    className="bg-green-600/20 hover:bg-green-600/40 text-green-300 hover:text-green-200 rounded-2xl transition-all duration-300"
+                  >
+                    <UserPlus className="h-4 w-4 mr-1" />
+                    تسجيل
+                  </Button>
+                  <Button
+                    onClick={() => setShowLogin(true)}
+                    variant="ghost"
+                    size="sm"
+                    className="bg-blue-600/20 hover:bg-blue-600/40 text-blue-300 hover:text-blue-200 rounded-2xl transition-all duration-300"
+                  >
+                    <User className="h-4 w-4 mr-1" />
+                    دخول
+                  </Button>
+                </div>
               )}
-            </Button>
+            </div>
           </div>
         </div>
       </header>
 
       {/* Login Dialog */}
-      <Dialog open={showLoginDialog} onOpenChange={setShowLoginDialog}>
-        <DialogContent className="bg-purple-900 border-purple-700 text-white max-w-md">
+      <Dialog open={showLogin} onOpenChange={setShowLogin}>
+        <DialogContent className="bg-gray-800 border-gray-700 text-white max-w-md rounded-2xl">
           <DialogHeader>
-            <DialogTitle className="text-center text-xl">تسجيل الدخول</DialogTitle>
+            <DialogTitle className="text-center">تسجيل الدخول</DialogTitle>
           </DialogHeader>
           <div className="space-y-4 pt-4">
             <div className="space-y-2">
-              <Label htmlFor="fullName">الاسم الثلاثي</Label>
+              <Label htmlFor="email">البريد الإلكتروني</Label>
               <Input
-                id="fullName"
-                value={fullName}
-                onChange={(e) => setFullName(e.target.value)}
-                placeholder="الاسم الأول الأوسط الأخير"
-                className="bg-purple-800 border-purple-600 text-white placeholder:text-purple-300"
+                id="email"
+                name="email"
+                value={loginForm.email}
+                onChange={handleLoginFormChange}
+                type="email"
+                className="bg-gray-700 border-gray-600 text-white rounded-xl"
               />
             </div>
             <div className="space-y-2">
-              <Label htmlFor="phoneNumber">رقم الهاتف</Label>
+              <Label htmlFor="password">كلمة المرور</Label>
               <Input
-                id="phoneNumber"
-                value={phoneNumber}
-                onChange={(e) => handlePhoneChange(e.target.value)}
-                placeholder="+964 7XX XXX XXXX"
-                className="bg-purple-800 border-purple-600 text-white placeholder:text-purple-300"
-                dir="ltr"
+                id="password"
+                name="password"
+                value={loginForm.password}
+                onChange={handleLoginFormChange}
+                type="password"
+                className="bg-gray-700 border-gray-600 text-white rounded-xl"
               />
-              <p className="text-xs text-purple-300">يجب أن يتكون من 11 رقم (بدون كود البلد)</p>
             </div>
-            <Button
-              onClick={handleLogin}
-              className="w-full bg-purple-600 hover:bg-purple-700"
-            >
+            <Button onClick={handleLogin} className="w-full bg-blue-600 hover:bg-blue-700 rounded-xl">
               تسجيل الدخول
+            </Button>
+          </div>
+        </DialogContent>
+      </Dialog>
+
+      {/* Register Dialog */}
+      <Dialog open={showRegister} onOpenChange={setShowRegister}>
+        <DialogContent className="bg-gray-800 border-gray-700 text-white max-w-md rounded-2xl">
+          <DialogHeader>
+            <DialogTitle className="text-center">إنشاء حساب</DialogTitle>
+          </DialogHeader>
+          <div className="space-y-4 pt-4">
+            <div className="space-y-2">
+              <Label htmlFor="fullName">الاسم الكامل</Label>
+              <Input
+                id="fullName"
+                name="fullName"
+                value={registerForm.fullName}
+                onChange={handleRegisterFormChange}
+                className="bg-gray-700 border-gray-600 text-white rounded-xl"
+              />
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="registerEmail">البريد الإلكتروني</Label>
+              <Input
+                id="registerEmail"
+                name="email"
+                value={registerForm.email}
+                onChange={handleRegisterFormChange}
+                type="email"
+                className="bg-gray-700 border-gray-600 text-white rounded-xl"
+              />
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="registerPassword">كلمة المرور</Label>
+              <Input
+                id="registerPassword"
+                name="password"
+                value={registerForm.password}
+                onChange={handleRegisterFormChange}
+                type="password"
+                className="bg-gray-700 border-gray-600 text-white rounded-xl"
+              />
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="confirmPassword">تأكيد كلمة المرور</Label>
+              <Input
+                id="confirmPassword"
+                name="confirmPassword"
+                value={registerForm.confirmPassword}
+                onChange={handleRegisterFormChange}
+                type="password"
+                className="bg-gray-700 border-gray-600 text-white rounded-xl"
+              />
+            </div>
+            <Button onClick={handleRegister} className="w-full bg-green-600 hover:bg-green-700 rounded-xl">
+              إنشاء حساب
             </Button>
           </div>
         </DialogContent>
