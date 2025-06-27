@@ -60,16 +60,18 @@ const OrderForm: React.FC<OrderFormProps> = ({
   const grandTotal = total + deliveryFee;
 
   const handleConfirmOrder = async () => {
-    if (!user) {
-      toast({
-        title: "يرجى تسجيل الدخول أولاً",
-        description: "يجب تسجيل الدخول لتأكيد الطلب",
-        variant: "destructive"
-      });
-      return;
-    }
-
-    if (!orderData.fullName.trim() || !orderData.phone.trim() || !orderData.province || !orderData.city.trim()) {
+    // تسجيل البيانات للتشخيص
+    console.log("Order data:", orderData);
+    
+    // التحقق من الحقول المطلوبة
+    const isFullNameValid = orderData.fullName && orderData.fullName.trim().length > 0;
+    const isPhoneValid = orderData.phone && orderData.phone.trim().length > 0;
+    const isProvinceValid = orderData.province && orderData.province.length > 0;
+    const isCityValid = orderData.city && orderData.city.trim().length > 0;
+    
+    console.log("Validation:", { isFullNameValid, isPhoneValid, isProvinceValid, isCityValid });
+    
+    if (!isFullNameValid || !isPhoneValid || !isProvinceValid || !isCityValid) {
       toast({
         title: "خطأ",
         description: "يرجى ملء جميع الحقول المطلوبة",
