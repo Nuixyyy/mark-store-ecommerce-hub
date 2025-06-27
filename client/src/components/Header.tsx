@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
-import { ShoppingCart, User, LogOut, UserPlus } from 'lucide-react';
+import { ShoppingCart, User, LogOut, UserPlus, ChevronDown } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { useToast } from '@/hooks/use-toast';
@@ -175,32 +176,46 @@ const Header: React.FC<HeaderProps> = ({ user, onLogin, onLogout, cartItemsCount
             {/* Left side - Login/Register */}
             <div className="flex items-center">
               {user ? (
-                <div className="flex items-center space-x-3">
-                  <div className="text-right">
-                    <div className="flex items-center space-x-2">
-                      <span className="text-sm font-medium text-white">
-                        {user.fullName}
-                      </span>
-                      {user.isAdmin && (
-                        <span className="bg-gradient-to-r from-yellow-400 to-yellow-500 text-black text-xs px-2 py-1 rounded-full font-medium shadow-lg">
-                          مدير
-                        </span>
-                      )}
+                <DropdownMenu>
+                  <DropdownMenuTrigger asChild>
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      className="relative bg-white/10 hover:bg-white/20 text-white rounded-full p-2 transition-all duration-300 hover:scale-105"
+                    >
+                      <User className="h-6 w-6" />
+                      <ChevronDown className="h-3 w-3 absolute -bottom-1 -right-1 bg-purple-600 rounded-full p-0.5" />
+                    </Button>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent className="bg-purple-800/95 backdrop-blur-lg border-purple-500/30 min-w-[200px] rounded-2xl shadow-2xl mt-2" align="start">
+                    <div className="p-4 space-y-3">
+                      <div className="text-center">
+                        <div className="text-white font-medium text-lg">
+                          {user.fullName}
+                        </div>
+                        {user.isAdmin && (
+                          <span className="bg-gradient-to-r from-yellow-400 to-yellow-500 text-black text-xs px-3 py-1 rounded-full font-medium shadow-lg inline-block mt-1">
+                            مدير
+                          </span>
+                        )}
+                        <div className="text-purple-200 text-sm mt-1">
+                          {user.phoneNumber}
+                        </div>
+                      </div>
+                      <div className="border-t border-purple-500/30 pt-3">
+                        <Button
+                          onClick={onLogout}
+                          variant="ghost"
+                          size="sm"
+                          className="w-full bg-red-600/20 hover:bg-red-600/40 text-red-300 hover:text-red-200 rounded-xl transition-all duration-300"
+                        >
+                          <LogOut className="h-4 w-4 mr-2" />
+                          تسجيل الخروج
+                        </Button>
+                      </div>
                     </div>
-                    <div className="text-xs text-purple-200">
-                      {user.phoneNumber}
-                    </div>
-                  </div>
-                  <Button
-                    onClick={onLogout}
-                    variant="ghost"
-                    size="sm"
-                    className="bg-red-600/20 hover:bg-red-600/40 text-red-300 hover:text-red-200 rounded-2xl transition-all duration-300"
-                  >
-                    <LogOut className="h-4 w-4 mr-2" />
-                    <span className="hidden sm:inline">خروج</span>
-                  </Button>
-                </div>
+                  </DropdownMenuContent>
+                </DropdownMenu>
               ) : (
                 <div className="flex space-x-2">
                   <Button

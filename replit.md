@@ -147,6 +147,11 @@ This is a full-stack web application built with React frontend and Express.js ba
   - Added product detail modal that opens when clicking on products
   - Added "اضغط لمعرفة تفاصيل المنتج" text under product names
   - Set HTML lang to "ar" and dir to "rtl" for proper Arabic support
+  - Swapped positions of "الرئيسية" and "التصنيفات" in bottom navigation
+  - Moved cart to right side of header, login/register buttons to left side
+  - Removed italic styling from product detail instruction text
+  - Updated page title to show only "مارك ستور" in browser tab
+  - Replaced user info display with dropdown profile icon showing name, admin status, phone, and logout button
 
 # User Preferences
 
