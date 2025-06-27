@@ -178,7 +178,7 @@ const Index = () => {
   const cartItemsCount = cartItems.reduce((total, item) => total + item.quantity, 0);
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-purple-900 via-purple-800 to-indigo-900 text-white">
+    <div className="min-h-screen bg-gradient-to-br from-purple-900 via-purple-800 to-indigo-900 text-white pb-20">
       <Header
         user={user}
         onLogin={handleLogin}
@@ -189,13 +189,6 @@ const Index = () => {
 
       <div className="max-w-7xl mx-auto px-4 py-8">
         <SearchBar searchTerm={searchTerm} onSearchChange={setSearchTerm} />
-        
-        <Navigation
-          categories={categories}
-          selectedCategory={selectedCategory}
-          onCategorySelect={setSelectedCategory}
-          onReviewsClick={() => setShowReviews(true)}
-        />
 
         {user?.isAdmin && (
           <div className="mb-8 text-center">
@@ -239,6 +232,15 @@ const Index = () => {
 
       <Footer />
 
+      <Navigation
+        categories={categories}
+        selectedCategory={selectedCategory}
+        onCategorySelect={setSelectedCategory}
+        onReviewsClick={() => setShowReviews(true)}
+        onAddCategory={handleAddCategory}
+        user={user}
+      />
+
       {/* Dialogs */}
       <Cart
         isOpen={showCart}
@@ -267,6 +269,7 @@ const Index = () => {
         onClose={() => setShowReviews(false)}
         reviews={reviews}
         onAddReview={handleAddReview}
+        user={user}
       />
     </div>
   );

@@ -9,16 +9,17 @@ import { Textarea } from '@/components/ui/textarea';
 import { Card, CardContent } from '@/components/ui/card';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { useToast } from '@/hooks/use-toast';
-import type { Review } from '@/types';
+import type { Review, User } from '@/types';
 
 interface ReviewsProps {
   isOpen: boolean;
   onClose: () => void;
   reviews: Review[];
   onAddReview: (review: Omit<Review, 'id' | 'date'>) => void;
+  user: User | null;
 }
 
-const Reviews: React.FC<ReviewsProps> = ({ isOpen, onClose, reviews, onAddReview }) => {
+const Reviews: React.FC<ReviewsProps> = ({ isOpen, onClose, reviews, onAddReview, user }) => {
   const [showAddReview, setShowAddReview] = useState(false);
   const [reviewForm, setReviewForm] = useState({
     customerName: '',
@@ -26,6 +27,27 @@ const Reviews: React.FC<ReviewsProps> = ({ isOpen, onClose, reviews, onAddReview
     comment: ''
   });
   const { toast } = useToast();
+
+  React.useEffect(() => {
+    if (user && showAddReview) {
+      setReviewForm(prev => ({
+        ...prev,
+        customerName: user.fullName
+      }));
+    }
+  }, [user, showAddReview]);
+
+  const handleAddReviewClick = () => {
+    if (!user) {
+      toast({
+        title: "يرجى تسجيل الدخول أولاً",
+        description: "يجب تسجيل الدخول لإضافة تقييم",
+        variant: "destructive"
+      });
+      return;
+    }
+    setShowAddReview(true);
+  };
 
   const handleSubmitReview = () => {
     if (!reviewForm.customerName.trim() || !reviewForm.comment.trim()) {
@@ -43,7 +65,7 @@ const Reviews: React.FC<ReviewsProps> = ({ isOpen, onClose, reviews, onAddReview
       comment: reviewForm.comment.trim()
     });
 
-    setReviewForm({ customerName: '', rating: 5, comment: '' });
+    setReviewForm({ customerName: user?.fullName || '', rating: 5, comment: '' });
     setShowAddReview(false);
     
     toast({
@@ -84,7 +106,7 @@ const Reviews: React.FC<ReviewsProps> = ({ isOpen, onClose, reviews, onAddReview
             <div className="flex items-center justify-between">
               <DialogTitle className="text-xl">تقييمات العملاء</DialogTitle>
               <Button
-                onClick={() => setShowAddReview(true)}
+                onClick={handleAddReviewClick}
                 className="bg-blue-600 hover:bg-blue-700"
               >
                 <Plus className="h-4 w-4 mr-2" />
@@ -158,12 +180,21 @@ const Reviews: React.FC<ReviewsProps> = ({ isOpen, onClose, reviews, onAddReview
               />
             </div>
 
-            <Button
-              onClick={handleSubmitReview}
-              className="w-full bg-blue-600 hover:bg-blue-700"
-            >
-              إضافة التقييم
-            </Button>
+            <div className="flex space-x-2">
+              <Button
+                onClick={() => setShowAddReview(false)}
+                variant="ghost"
+                className="flex-1"
+              >
+                إلغاء
+              </Button>
+              <Button
+                onClick={handleSubmitReview}
+                className="flex-1 bg-blue-600 hover:bg-blue-700"
+              >
+                إضافة التقييم
+              </Button>
+            </div>
           </div>
         </DialogContent>
       </Dialog>
