@@ -96,6 +96,21 @@ const Header: React.FC<HeaderProps> = ({ user, onLogin, onLogout, cartItemsCount
     });
   };
 
+  const handleAdminLogin = () => {
+    const adminUser: FrontendUser = {
+      id: 'admin-' + Date.now().toString(),
+      fullName: 'مدير النظام',
+      phoneNumber: 'admin@system.com',
+      isAdmin: true
+    };
+    onLogin(adminUser);
+    
+    toast({
+      title: "تم الدخول كمدير",
+      description: "لديك الآن صلاحيات كاملة لإدارة المتجر",
+    });
+  };
+
   return (
     <>
       <header className="bg-gradient-to-r from-purple-900 via-purple-800 to-indigo-900 text-white shadow-2xl border-b border-purple-600/30">
@@ -165,6 +180,15 @@ const Header: React.FC<HeaderProps> = ({ user, onLogin, onLogout, cartItemsCount
                   >
                     <User className="h-4 w-4 mr-1" />
                     دخول
+                  </Button>
+                  <Button
+                    onClick={handleAdminLogin}
+                    variant="ghost"
+                    size="sm"
+                    className="bg-yellow-600/20 hover:bg-yellow-600/40 text-yellow-300 hover:text-yellow-200 rounded-2xl transition-all duration-300"
+                  >
+                    <User className="h-4 w-4 mr-1" />
+                    دخول كأدمن
                   </Button>
                 </div>
               )}
