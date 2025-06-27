@@ -140,6 +140,13 @@ This is a full-stack web application built with React frontend and Express.js ba
   - Applied purple background #1a012a to product cards for consistent theme
   - Removed order confirmation requirement for logged-in users - anyone can place orders
   - Enhanced form validation with diagnostic logging for troubleshooting
+  - Changed site title to "مارك ستور" (Mark Store) with Arabic branding
+  - Added store description: "متجر الكتروني لبيع الاكسسوارات الكيمنك"
+  - Added delivery information: "توصيل جميع محافظات العراق 5 الف"
+  - Updated product display: removed description from product cards
+  - Added product detail modal that opens when clicking on products
+  - Added "اضغط لمعرفة تفاصيل المنتج" text under product names
+  - Set HTML lang to "ar" and dir to "rtl" for proper Arabic support
 
 # User Preferences
 
