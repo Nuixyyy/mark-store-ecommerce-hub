@@ -71,17 +71,17 @@ const Header: React.FC<HeaderProps> = ({ user, onLogin, onLogout, cartItemsCount
 
   return (
     <>
-      <header className="w-full bg-gray-900 border-b border-gray-700 px-4 py-3">
+      <header className="w-full bg-gradient-to-r from-purple-800 via-purple-700 to-purple-900 px-4 py-4">
         <div className="max-w-7xl mx-auto flex items-center justify-between">
           {/* Login/User Section */}
           <div className="flex items-center space-x-4">
             {user ? (
               <div className="flex items-center space-x-2">
-                <div className="flex items-center space-x-2 bg-gray-800 px-3 py-2 rounded-lg">
-                  <User className="h-5 w-5 text-blue-400" />
+                <div className="flex items-center space-x-2 bg-purple-900/50 px-3 py-2 rounded-lg backdrop-blur">
+                  <User className="h-5 w-5 text-purple-200" />
                   <span className="text-white text-sm">{user.fullName}</span>
                   {user.isAdmin && (
-                    <Badge variant="secondary" className="bg-blue-600 text-white">
+                    <Badge variant="secondary" className="bg-purple-600 text-white">
                       مدير
                     </Badge>
                   )}
@@ -90,7 +90,7 @@ const Header: React.FC<HeaderProps> = ({ user, onLogin, onLogout, cartItemsCount
                   variant="ghost"
                   size="sm"
                   onClick={onLogout}
-                  className="text-gray-300 hover:text-white hover:bg-gray-800"
+                  className="text-purple-200 hover:text-white hover:bg-purple-800/50"
                 >
                   <LogOut className="h-4 w-4" />
                 </Button>
@@ -98,9 +98,9 @@ const Header: React.FC<HeaderProps> = ({ user, onLogin, onLogout, cartItemsCount
             ) : (
               <Button
                 onClick={() => setShowLoginDialog(true)}
-                className="bg-blue-600 hover:bg-blue-700 text-white"
+                className="bg-purple-600 hover:bg-purple-700 text-white border-none"
               >
-                تسجيل الدخول
+                <User className="h-4 w-4 mr-2" />
               </Button>
             )}
           </div>
@@ -108,7 +108,7 @@ const Header: React.FC<HeaderProps> = ({ user, onLogin, onLogout, cartItemsCount
           {/* Logo */}
           <div className="text-center">
             <h1 className="text-3xl font-bold text-white">مارك ستور</h1>
-            <p className="text-gray-400 text-sm">Mark Store</p>
+            <p className="text-purple-200 text-sm">Mark Store</p>
           </div>
 
           {/* Cart */}
@@ -116,7 +116,7 @@ const Header: React.FC<HeaderProps> = ({ user, onLogin, onLogout, cartItemsCount
             <Button
               variant="ghost"
               onClick={onCartClick}
-              className="text-gray-300 hover:text-white hover:bg-gray-800 p-2"
+              className="text-purple-200 hover:text-white hover:bg-purple-800/50 p-2"
             >
               <ShoppingCart className="h-6 w-6" />
               {cartItemsCount > 0 && (
@@ -133,7 +133,7 @@ const Header: React.FC<HeaderProps> = ({ user, onLogin, onLogout, cartItemsCount
 
       {/* Login Dialog */}
       <Dialog open={showLoginDialog} onOpenChange={setShowLoginDialog}>
-        <DialogContent className="bg-gray-800 border-gray-700 text-white max-w-md">
+        <DialogContent className="bg-purple-900 border-purple-700 text-white max-w-md">
           <DialogHeader>
             <DialogTitle className="text-center text-xl">تسجيل الدخول</DialogTitle>
           </DialogHeader>
@@ -145,7 +145,7 @@ const Header: React.FC<HeaderProps> = ({ user, onLogin, onLogout, cartItemsCount
                 value={fullName}
                 onChange={(e) => setFullName(e.target.value)}
                 placeholder="الاسم الأول الأوسط الأخير"
-                className="bg-gray-700 border-gray-600 text-white"
+                className="bg-purple-800 border-purple-600 text-white placeholder:text-purple-300"
               />
             </div>
             <div className="space-y-2">
@@ -155,14 +155,14 @@ const Header: React.FC<HeaderProps> = ({ user, onLogin, onLogout, cartItemsCount
                 value={phoneNumber}
                 onChange={(e) => handlePhoneChange(e.target.value)}
                 placeholder="+964 7XX XXX XXXX"
-                className="bg-gray-700 border-gray-600 text-white"
+                className="bg-purple-800 border-purple-600 text-white placeholder:text-purple-300"
                 dir="ltr"
               />
-              <p className="text-xs text-gray-400">يجب أن يتكون من 11 رقم (بدون كود البلد)</p>
+              <p className="text-xs text-purple-300">يجب أن يتكون من 11 رقم (بدون كود البلد)</p>
             </div>
             <Button
               onClick={handleLogin}
-              className="w-full bg-blue-600 hover:bg-blue-700"
+              className="w-full bg-purple-600 hover:bg-purple-700"
             >
               تسجيل الدخول
             </Button>

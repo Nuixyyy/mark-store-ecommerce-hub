@@ -178,7 +178,7 @@ const Index = () => {
   const cartItemsCount = cartItems.reduce((total, item) => total + item.quantity, 0);
 
   return (
-    <div className="min-h-screen bg-gray-900 text-white">
+    <div className="min-h-screen bg-gradient-to-br from-purple-900 via-purple-800 to-indigo-900 text-white">
       <Header
         user={user}
         onLogin={handleLogin}
@@ -204,7 +204,7 @@ const Index = () => {
                 setEditingProduct(null);
                 setShowAdminPanel(true);
               }}
-              className="bg-green-600 hover:bg-green-700"
+              className="bg-gradient-to-r from-green-600 to-green-700 hover:from-green-700 hover:to-green-800 shadow-lg hover:shadow-green-500/30 border-none"
             >
               <Plus className="h-4 w-4 mr-2" />
               إضافة منتج جديد
@@ -215,8 +215,8 @@ const Index = () => {
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 mb-12">
           {filteredProducts.length === 0 ? (
             <div className="col-span-full text-center py-12">
-              <p className="text-gray-400 text-lg">
-                {searchTerm || selectedCategory ? 'لا توجد منتجات مطابقة للبحث' : 'لا توجد منتجات حالياً'}
+              <p className="text-purple-300 text-lg">
+                {searchTerm || selectedCategory ? 'لا توجد منتجات مطابقة لعملية البحث أو الفئة المحددة.' : 'لا توجد منتجات حالياً'}
               </p>
             </div>
           ) : (
