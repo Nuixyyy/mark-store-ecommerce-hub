@@ -125,6 +125,10 @@ This is a full-stack web application built with React frontend and Express.js ba
   - Removed admin button from public interface for security
   - Redesigned login/registration system with triple name validation and phone number
   - Applied purple gradient theme to reviews interface matching user design specifications
+  - Changed store name to "مارك ستور" (Mark Store) and removed tagline
+  - Enhanced login/registration UI with dark theme, blur effects, and +964 country code prefix
+  - Darkened purple colors throughout application for better visual appeal
+  - Combined login/registration forms into single dialog with improved UX
 
 # User Preferences
 

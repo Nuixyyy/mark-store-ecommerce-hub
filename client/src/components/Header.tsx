@@ -133,11 +133,8 @@ const Header: React.FC<HeaderProps> = ({ user, onLogin, onLogout, cartItemsCount
             {/* Center - Brand */}
             <div className="text-center">
               <h1 className="text-2xl sm:text-3xl font-bold bg-gradient-to-r from-white via-purple-200 to-white bg-clip-text text-transparent">
-                متجر التقنية
+                مارك ستور
               </h1>
-              <p className="text-purple-200 text-xs sm:text-sm mt-1">
-                أفضل المنتجات التقنية
-              </p>
             </div>
 
             {/* Right side - User menu */}

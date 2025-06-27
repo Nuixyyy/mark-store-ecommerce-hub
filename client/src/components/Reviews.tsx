@@ -144,7 +144,7 @@ const Reviews: React.FC<ReviewsProps> = ({ isOpen, onClose, reviews, onAddReview
 
       {/* Add Review Dialog */}
       <Dialog open={showAddReview} onOpenChange={setShowAddReview}>
-        <DialogContent className="bg-gradient-to-br from-purple-900 via-purple-800 to-purple-900 border-purple-600/50 text-white max-w-md rounded-3xl shadow-2xl">
+        <DialogContent className="bg-gradient-to-br from-purple-950 via-purple-900 to-purple-950 border-purple-700/30 text-white max-w-md rounded-3xl shadow-2xl">
           <DialogHeader>
             <DialogTitle className="text-center text-xl font-semibold mb-6">
               أضف تقييمك
@@ -159,7 +159,7 @@ const Reviews: React.FC<ReviewsProps> = ({ isOpen, onClose, reviews, onAddReview
                 id="customerName"
                 value={reviewForm.customerName}
                 onChange={(e) => setReviewForm(prev => ({ ...prev, customerName: e.target.value }))}
-                className="bg-purple-800/50 border-purple-600/50 text-white rounded-xl h-14 text-right px-4"
+                className="bg-purple-900/60 border-purple-700/40 text-white rounded-xl h-14 text-right px-4"
                 placeholder="محمد"
               />
             </div>
@@ -171,7 +171,7 @@ const Reviews: React.FC<ReviewsProps> = ({ isOpen, onClose, reviews, onAddReview
               <Textarea
                 value={reviewForm.comment}
                 onChange={(e) => setReviewForm(prev => ({ ...prev, comment: e.target.value }))}
-                className="bg-purple-800/50 border-purple-600/50 text-white rounded-xl text-right px-4 py-4 min-h-[120px] resize-none"
+                className="bg-purple-900/60 border-purple-700/40 text-white rounded-xl text-right px-4 py-4 min-h-[120px] resize-none"
                 placeholder="Yuygy tf t jtft"
               />
             </div>
@@ -186,7 +186,7 @@ const Reviews: React.FC<ReviewsProps> = ({ isOpen, onClose, reviews, onAddReview
                 max="5"
                 value={reviewForm.rating}
                 onChange={(e) => setReviewForm(prev => ({ ...prev, rating: parseInt(e.target.value) || 1 }))}
-                className="bg-purple-800/50 border-purple-600/50 text-white rounded-xl h-14 text-right px-4"
+                className="bg-purple-900/60 border-purple-700/40 text-white rounded-xl h-14 text-right px-4"
                 placeholder="5"
               />
             </div>
