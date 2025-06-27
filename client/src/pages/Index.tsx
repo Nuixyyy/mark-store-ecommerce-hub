@@ -251,7 +251,7 @@ const Index = () => {
   const cartItemsCount = cartItems.reduce((total, item) => total + item.quantity, 0);
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-purple-900 via-purple-800 to-indigo-900 text-white pb-20">
+    <div className="min-h-screen text-white pb-20" style={{backgroundColor: '#1a012a'}}>
       <Header
         user={user}
         onLogin={handleLogin}
