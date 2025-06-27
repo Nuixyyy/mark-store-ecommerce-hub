@@ -149,8 +149,14 @@ const Header: React.FC<HeaderProps> = ({ user, onLogin, onLogout, cartItemsCount
             {/* Center - Brand */}
             <div className="text-center">
               <h1 className="text-2xl sm:text-3xl font-bold bg-gradient-to-r from-white via-purple-200 to-white bg-clip-text text-transparent">
-                MARKSTOR
+                مارك ستور
               </h1>
+              <p className="text-xs text-purple-200 mt-1 hidden sm:block">
+                متجر الكتروني لبيع الاكسسوارات الكيمنك
+              </p>
+              <p className="text-xs text-purple-300 hidden sm:block">
+                توصيل جميع محافظات العراق 5 الف
+              </p>
             </div>
 
             {/* Right side - User menu */}

@@ -27,6 +27,7 @@ import AdminPanel from '@/components/AdminPanel';
 import Navigation from '@/components/Navigation';
 import Reviews from '@/components/Reviews';
 import Footer from '@/components/Footer';
+import ProductDetailModal from '@/components/ProductDetailModal';
 import type { Product as BackendProduct, User as BackendUser, Review as BackendReview, Category as BackendCategory } from '@shared/schema';
 
 const Index = () => {
@@ -39,6 +40,8 @@ const Index = () => {
   const [showReviews, setShowReviews] = useState(false);
   const [editingProduct, setEditingProduct] = useState<FrontendProduct | null>(null);
   const [showOrderForm, setShowOrderForm] = useState(false);
+  const [showProductDetail, setShowProductDetail] = useState(false);
+  const [selectedProduct, setSelectedProduct] = useState<FrontendProduct | null>(null);
   const { toast } = useToast();
 
   // Fetch data with React Query
@@ -183,6 +186,11 @@ const Index = () => {
     deleteCategoryMutation.mutate(categoryId);
   };
 
+  const handleProductClick = (product: FrontendProduct) => {
+    setSelectedProduct(product);
+    setShowProductDetail(true);
+  };
+
   const handleAddToCart = (product: FrontendProduct) => {
     if (!user) {
       toast({
@@ -291,6 +299,7 @@ const Index = () => {
                 key={product.id}
                 product={product}
                 onAddToCart={handleAddToCart}
+                onProductClick={handleProductClick}
                 onEdit={user?.isAdmin ? (product) => {
                   setEditingProduct(product);
                   setShowAdminPanel(true);
@@ -353,6 +362,13 @@ const Index = () => {
         reviews={reviews}
         onAddReview={handleAddReview}
         user={user}
+      />
+
+      <ProductDetailModal
+        isOpen={showProductDetail}
+        onClose={() => setShowProductDetail(false)}
+        product={selectedProduct}
+        onAddToCart={handleAddToCart}
       />
     </div>
   );

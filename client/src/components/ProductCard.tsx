@@ -10,6 +10,7 @@ interface ProductCardProps {
   onAddToCart: (product: FrontendProduct) => void;
   onEdit?: (product: FrontendProduct) => void;
   onDelete?: (productId: string) => void;
+  onProductClick: (product: FrontendProduct) => void;
   isAdmin?: boolean;
 }
 
@@ -18,24 +19,25 @@ const ProductCard: React.FC<ProductCardProps> = ({
   onAddToCart, 
   onEdit, 
   onDelete, 
+  onProductClick,
   isAdmin 
 }) => {
   return (
-    <Card className="border-purple-600/30 hover:border-purple-500/50 transition-all duration-300 overflow-hidden backdrop-blur-sm hover:scale-105 hover:shadow-xl hover:shadow-purple-500/20" style={{backgroundColor: '#1a012a'}}>
-      <div className="aspect-square overflow-hidden">
+    <Card className="border-purple-600/30 hover:border-purple-500/50 transition-all duration-300 overflow-hidden backdrop-blur-sm hover:scale-105 hover:shadow-xl hover:shadow-purple-500/20 cursor-pointer" style={{backgroundColor: '#1a012a'}}>
+      <div 
+        className="aspect-square overflow-hidden"
+        onClick={() => onProductClick(product)}
+      >
         <img
           src={product.image}
           alt={product.name}
           className="w-full h-full object-cover hover:scale-110 transition-transform duration-500"
         />
       </div>
-      <CardContent className="p-4">
+      <CardContent className="p-4" onClick={() => onProductClick(product)}>
         <h3 className="text-white font-semibold text-lg mb-2 line-clamp-2">
           {product.name}
         </h3>
-        <p className="text-purple-200 text-sm mb-3 line-clamp-2">
-          {product.description}
-        </p>
         <div className="flex items-center justify-between">
           <span className="text-purple-300 font-bold text-xl">
             {product.price.toLocaleString()} د.ع
