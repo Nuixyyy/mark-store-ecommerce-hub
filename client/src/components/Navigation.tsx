@@ -59,6 +59,19 @@ const Navigation: React.FC<NavigationProps> = ({
           <div className="flex items-center justify-between py-4">
             {/* Left side - Home and Categories */}
             <div className="flex items-center space-x-3">
+              <Button
+                variant={selectedCategory === null ? "default" : "ghost"}
+                onClick={() => onCategorySelect(null)}
+                className={`flex flex-col items-center space-y-1 rounded-3xl px-6 py-3 transition-all duration-300 group ${
+                  selectedCategory === null 
+                    ? "bg-gradient-to-br from-purple-500 to-purple-600 text-white shadow-lg shadow-purple-500/30 hover:shadow-purple-500/50 scale-105" 
+                    : "text-purple-200 hover:text-white hover:bg-purple-600/40"
+                }`}
+              >
+                <Home className="h-5 w-5 group-hover:scale-110 transition-transform" />
+                <span className="text-xs font-medium">الرئيسية</span>
+              </Button>
+
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
                   <Button
@@ -120,19 +133,6 @@ const Navigation: React.FC<NavigationProps> = ({
                   )}
                 </DropdownMenuContent>
               </DropdownMenu>
-
-              <Button
-                variant={selectedCategory === null ? "default" : "ghost"}
-                onClick={() => onCategorySelect(null)}
-                className={`flex flex-col items-center space-y-1 rounded-3xl px-6 py-3 transition-all duration-300 group ${
-                  selectedCategory === null 
-                    ? "bg-gradient-to-br from-purple-500 to-purple-600 text-white shadow-lg shadow-purple-500/30 hover:shadow-purple-500/50 scale-105" 
-                    : "text-purple-200 hover:text-white hover:bg-purple-600/40"
-                }`}
-              >
-                <Home className="h-5 w-5 group-hover:scale-110 transition-transform" />
-                <span className="text-xs font-medium">الرئيسية</span>
-              </Button>
             </div>
 
             {/* Separator Line */}

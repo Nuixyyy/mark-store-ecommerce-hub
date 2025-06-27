@@ -38,7 +38,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
         <h3 className="text-white font-semibold text-lg mb-2 line-clamp-2">
           {product.name}
         </h3>
-        <p className="text-purple-300 text-sm mb-3 italic">
+        <p className="text-purple-300 text-sm mb-3">
           اضغط لمعرفة تفاصيل المنتج
         </p>
         <div className="flex items-center justify-between">

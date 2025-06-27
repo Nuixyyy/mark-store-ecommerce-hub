@@ -172,38 +172,7 @@ const Header: React.FC<HeaderProps> = ({ user, onLogin, onLogout, cartItemsCount
       <header className="bg-gradient-to-r from-purple-900 via-purple-800 to-indigo-900 text-white shadow-2xl border-b border-purple-600/30">
         <div className="max-w-7xl mx-auto px-4 py-4">
           <div className="flex items-center justify-between">
-            {/* Left side - Cart */}
-            <div className="flex items-center">
-              <Button
-                onClick={onCartClick}
-                variant="ghost"
-                size="sm"
-                className="relative bg-white/10 hover:bg-white/20 text-white rounded-2xl px-4 py-2 transition-all duration-300 hover:scale-105"
-              >
-                <ShoppingCart className="h-5 w-5 mr-2" />
-                <span className="hidden sm:inline">السلة</span>
-                {cartItemsCount > 0 && (
-                  <span className="absolute -top-2 -right-2 bg-gradient-to-r from-red-500 to-red-600 text-white text-xs rounded-full h-6 w-6 flex items-center justify-center shadow-lg animate-pulse">
-                    {cartItemsCount}
-                  </span>
-                )}
-              </Button>
-            </div>
-
-            {/* Center - Brand */}
-            <div className="text-center">
-              <h1 className="text-2xl sm:text-3xl font-bold bg-gradient-to-r from-white via-purple-200 to-white bg-clip-text text-transparent">
-                MARKSTOR
-              </h1>
-              <p className="text-xs text-purple-200 mt-1 hidden sm:block">
-                متجر الكتروني لبيع الاكسسوارات الكيمنك
-              </p>
-              <p className="text-xs text-purple-300 hidden sm:block">
-                توصيل جميع محافظات العراق 5 الف
-              </p>
-            </div>
-
-            {/* Right side - User menu */}
+            {/* Left side - Login/Register */}
             <div className="flex items-center">
               {user ? (
                 <div className="flex items-center space-x-3">
@@ -228,32 +197,69 @@ const Header: React.FC<HeaderProps> = ({ user, onLogin, onLogout, cartItemsCount
                     size="sm"
                     className="bg-red-600/20 hover:bg-red-600/40 text-red-300 hover:text-red-200 rounded-2xl transition-all duration-300"
                   >
-                    <LogOut className="h-4 w-4 mr-1" />
-                    خروج
+                    <LogOut className="h-4 w-4 mr-2" />
+                    <span className="hidden sm:inline">خروج</span>
                   </Button>
                 </div>
               ) : (
-                <div className="flex items-center space-x-2">
+                <div className="flex space-x-2">
                   <Button
-                    onClick={() => setShowRegister(true)}
+                    onClick={() => {
+                      setIsLoginMode(true);
+                      setShowLogin(true);
+                    }}
                     variant="ghost"
                     size="sm"
-                    className="bg-green-600/20 hover:bg-green-600/40 text-green-300 hover:text-green-200 rounded-2xl transition-all duration-300"
+                    className="bg-white/10 hover:bg-white/20 text-white rounded-2xl transition-all duration-300"
                   >
-                    <UserPlus className="h-4 w-4 mr-1" />
-                    تسجيل
+                    <User className="h-4 w-4 mr-2" />
+                    <span className="hidden sm:inline">دخول</span>
                   </Button>
                   <Button
-                    onClick={() => setShowLogin(true)}
+                    onClick={() => {
+                      setIsLoginMode(false);
+                      setShowLogin(true);
+                    }}
                     variant="ghost"
                     size="sm"
-                    className="bg-blue-600/20 hover:bg-blue-600/40 text-blue-300 hover:text-blue-200 rounded-2xl transition-all duration-300"
+                    className="bg-purple-600/30 hover:bg-purple-600/50 text-white rounded-2xl transition-all duration-300"
                   >
-                    <User className="h-4 w-4 mr-1" />
-                    دخول
+                    <UserPlus className="h-4 w-4 mr-2" />
+                    <span className="hidden sm:inline">تسجيل</span>
                   </Button>
                 </div>
               )}
+            </div>
+
+            {/* Center - Brand */}
+            <div className="text-center">
+              <h1 className="text-2xl sm:text-3xl font-bold bg-gradient-to-r from-white via-purple-200 to-white bg-clip-text text-transparent">
+                MARKSTOR
+              </h1>
+              <p className="text-xs text-purple-200 mt-1 hidden sm:block">
+                متجر الكتروني لبيع الاكسسوارات الكيمنك
+              </p>
+              <p className="text-xs text-purple-300 hidden sm:block">
+                توصيل جميع محافظات العراق 5 الف
+              </p>
+            </div>
+
+            {/* Right side - Cart */}
+            <div className="flex items-center">
+              <Button
+                onClick={onCartClick}
+                variant="ghost"
+                size="sm"
+                className="relative bg-white/10 hover:bg-white/20 text-white rounded-2xl px-4 py-2 transition-all duration-300 hover:scale-105"
+              >
+                <ShoppingCart className="h-5 w-5 mr-2" />
+                <span className="hidden sm:inline">السلة</span>
+                {cartItemsCount > 0 && (
+                  <span className="absolute -top-2 -right-2 bg-gradient-to-r from-red-500 to-red-600 text-white text-xs rounded-full h-6 w-6 flex items-center justify-center shadow-lg animate-pulse">
+                    {cartItemsCount}
+                  </span>
+                )}
+              </Button>
             </div>
           </div>
         </div>
