@@ -134,7 +134,7 @@ const AdminPanel: React.FC<AdminPanelProps> = ({
   return (
     <>
       <Dialog open={isOpen} onOpenChange={onClose}>
-        <DialogContent className="bg-gray-800 border-gray-700 text-white max-w-2xl max-h-[90vh] overflow-y-auto">
+        <DialogContent className="text-white max-w-2xl max-h-[90vh] overflow-y-auto rounded-3xl border-purple-600/30" style={{backgroundColor: '#1a012a'}}>
           <DialogHeader>
             <DialogTitle className="text-center text-xl">
               {editingProduct ? 'تعديل المنتج' : 'إضافة منتج جديد'}
@@ -225,7 +225,7 @@ const AdminPanel: React.FC<AdminPanelProps> = ({
 
       {/* Add Category Dialog */}
       <Dialog open={showCategoryDialog} onOpenChange={setShowCategoryDialog}>
-        <DialogContent className="bg-gray-800 border-gray-700 text-white max-w-md">
+        <DialogContent className="text-white max-w-md rounded-3xl border-purple-600/30" style={{backgroundColor: '#1a012a'}}>
           <DialogHeader>
             <DialogTitle className="text-center">إضافة تصنيف جديد</DialogTitle>
           </DialogHeader>

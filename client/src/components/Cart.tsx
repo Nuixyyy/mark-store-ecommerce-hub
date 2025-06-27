@@ -30,21 +30,21 @@ const Cart: React.FC<CartProps> = ({
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="bg-gray-800 border-gray-700 text-white max-w-lg max-h-[80vh]">
+      <DialogContent className="text-white max-w-lg max-h-[80vh] rounded-3xl border-purple-600/30" style={{backgroundColor: '#1a012a'}}>
         <DialogHeader>
           <DialogTitle className="text-center text-xl">سلة التسوق</DialogTitle>
         </DialogHeader>
         
         {items.length === 0 ? (
           <div className="text-center py-8">
-            <p className="text-gray-400">السلة فارغة</p>
+            <p className="text-purple-300">السلة فارغة</p>
           </div>
         ) : (
           <>
             <ScrollArea className="max-h-96">
               <div className="space-y-4">
                 {items.map((item) => (
-                  <div key={item.id} className="flex items-center space-x-4 p-3 bg-gray-700 rounded-lg">
+                  <div key={item.id} className="flex items-center space-x-4 p-3 bg-purple-800/30 rounded-lg border border-purple-600/30">
                     <img
                       src={item.image}
                       alt={item.name}

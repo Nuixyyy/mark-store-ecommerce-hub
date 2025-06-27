@@ -54,7 +54,7 @@ const Navigation: React.FC<NavigationProps> = ({
 
   return (
     <>
-      <nav className="fixed bottom-0 left-0 right-0 bg-gradient-to-t from-purple-900/98 via-purple-800/95 to-purple-700/90 backdrop-blur-lg border-t border-purple-500/30 z-50 shadow-2xl">
+      <nav className="fixed bottom-0 left-0 right-0 bg-gradient-to-t from-purple-900/98 via-purple-800/95 to-purple-700/90 backdrop-blur-lg border-t border-purple-500/30 z-50 shadow-2xl rounded-t-3xl">
         <div className="max-w-7xl mx-auto px-6">
           <div className="flex items-center justify-between py-4">
             {/* Left side - Customer Reviews */}
@@ -62,7 +62,7 @@ const Navigation: React.FC<NavigationProps> = ({
               <Button
                 variant="ghost"
                 onClick={onReviewsClick}
-                className="flex flex-col items-center space-y-1 text-purple-200 hover:text-white hover:bg-purple-600/40 rounded-2xl px-4 py-3 transition-all duration-300 group"
+                className="flex flex-col items-center space-y-1 text-purple-200 hover:text-white hover:bg-purple-600/40 rounded-3xl px-4 py-3 transition-all duration-300 group"
               >
                 <Star className="h-5 w-5 group-hover:scale-110 transition-transform" />
                 <span className="text-xs font-medium">تقييمات العملاء</span>
@@ -78,7 +78,7 @@ const Navigation: React.FC<NavigationProps> = ({
                 <DropdownMenuTrigger asChild>
                   <Button
                     variant="ghost"
-                    className="flex flex-col items-center space-y-1 text-purple-200 hover:text-white hover:bg-purple-600/40 rounded-2xl px-4 py-3 transition-all duration-300 group"
+                    className="flex flex-col items-center space-y-1 text-purple-200 hover:text-white hover:bg-purple-600/40 rounded-3xl px-4 py-3 transition-all duration-300 group"
                   >
                     <div className="flex items-center space-x-1">
                       <Grid3X3 className="h-5 w-5 group-hover:scale-110 transition-transform" />
@@ -139,7 +139,7 @@ const Navigation: React.FC<NavigationProps> = ({
               <Button
                 variant={selectedCategory === null ? "default" : "ghost"}
                 onClick={() => onCategorySelect(null)}
-                className={`flex flex-col items-center space-y-1 rounded-2xl px-6 py-3 transition-all duration-300 group ${
+                className={`flex flex-col items-center space-y-1 rounded-3xl px-6 py-3 transition-all duration-300 group ${
                   selectedCategory === null 
                     ? "bg-gradient-to-br from-purple-500 to-purple-600 text-white shadow-lg shadow-purple-500/30 hover:shadow-purple-500/50 scale-105" 
                     : "text-purple-200 hover:text-white hover:bg-purple-600/40"
@@ -155,7 +155,7 @@ const Navigation: React.FC<NavigationProps> = ({
 
       {/* Add Category Dialog */}
       <Dialog open={showAddCategory} onOpenChange={setShowAddCategory}>
-        <DialogContent className="bg-gray-800/95 backdrop-blur-lg border-gray-600/50 text-white max-w-md rounded-2xl">
+        <DialogContent className="text-white max-w-md rounded-3xl border-purple-600/30" style={{backgroundColor: '#1a012a'}}>
           <DialogHeader>
             <DialogTitle className="text-center">إضافة تصنيف جديد</DialogTitle>
           </DialogHeader>
@@ -166,7 +166,7 @@ const Navigation: React.FC<NavigationProps> = ({
                 id="categoryName"
                 value={categoryName}
                 onChange={(e) => setCategoryName(e.target.value)}
-                className="bg-gray-700/50 border-gray-600/50 text-white rounded-xl"
+                className="bg-purple-800/30 border-purple-600/50 text-white rounded-xl"
                 placeholder="ادخل اسم التصنيف"
               />
             </div>

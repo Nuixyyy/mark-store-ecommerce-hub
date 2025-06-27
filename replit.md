@@ -133,6 +133,9 @@ This is a full-stack web application built with React frontend and Express.js ba
   - Removed default categories (electronics, clothing, home & garden) for clean start
   - Applied custom background color #1a012a throughout the application
   - Simplified admin authentication to use special password during registration
+  - Applied purple background color #1a012a to all dialog windows (login, cart, admin panel, order form, reviews)
+  - Made bottom navigation bar more rounded with rounded-t-3xl for smoother appearance
+  - Enhanced all dialog forms with consistent purple theme and rounded corners
 
 # User Preferences
 

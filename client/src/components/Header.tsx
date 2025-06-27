@@ -201,7 +201,7 @@ const Header: React.FC<HeaderProps> = ({ user, onLogin, onLogout, cartItemsCount
         setShowLogin(false);
         setShowRegister(false);
       }}>
-        <DialogContent className="bg-slate-800/95 backdrop-blur-lg border-slate-600/50 text-white max-w-md rounded-3xl shadow-2xl">
+        <DialogContent className="text-white max-w-md rounded-3xl shadow-2xl border-purple-600/30" style={{backgroundColor: '#1a012a'}}>
           <DialogHeader>
             <DialogTitle className="text-center text-xl font-semibold mb-6">
               تسجيل الدخول / التسجيل
@@ -217,7 +217,7 @@ const Header: React.FC<HeaderProps> = ({ user, onLogin, onLogout, cartItemsCount
                 name="fullName"
                 value={registerForm.fullName}
                 onChange={handleRegisterFormChange}
-                className="bg-slate-700/70 border-slate-600/50 text-white rounded-xl h-14 text-right px-4"
+                className="bg-purple-800/30 border-purple-600/50 text-white rounded-xl h-14 text-right px-4"
                 placeholder=""
               />
             </div>
@@ -226,8 +226,8 @@ const Header: React.FC<HeaderProps> = ({ user, onLogin, onLogout, cartItemsCount
               <Label htmlFor="phoneNumber" className="text-white text-right block">
                 رقم الهاتف (11 رقماً بعد +964)
               </Label>
-              <div className="flex rounded-xl overflow-hidden bg-slate-700/70 border border-slate-600/50">
-                <div className="bg-slate-600/70 px-4 py-4 text-white font-semibold border-l border-slate-500/50">
+              <div className="flex rounded-xl overflow-hidden bg-purple-800/30 border border-purple-600/50">
+                <div className="bg-purple-700/50 px-4 py-4 text-white font-semibold border-l border-purple-500/50">
                   +964
                 </div>
                 <Input
@@ -240,7 +240,7 @@ const Header: React.FC<HeaderProps> = ({ user, onLogin, onLogout, cartItemsCount
                   placeholder="7701234567"
                 />
               </div>
-              <p className="text-slate-400 text-sm text-right">
+              <p className="text-purple-300 text-sm text-right">
                 الرجاء إدخال 11 رقماً فقط
               </p>
             </div>
@@ -255,7 +255,7 @@ const Header: React.FC<HeaderProps> = ({ user, onLogin, onLogout, cartItemsCount
                 value={registerForm.password}
                 onChange={handleRegisterFormChange}
                 type="password"
-                className="bg-slate-700/70 border-slate-600/50 text-white rounded-xl h-14 text-right px-4"
+                className="bg-purple-800/30 border-purple-600/50 text-white rounded-xl h-14 text-right px-4"
                 placeholder=""
               />
             </div>
