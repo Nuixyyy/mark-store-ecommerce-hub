@@ -120,6 +120,11 @@ This is a full-stack web application built with React frontend and Express.js ba
   - Added easy admin access button for user convenience
   - Established proper client/server separation following security best practices
   - Added category deletion functionality for admin users with confirmation dialog
+  - Enhanced navigation with separator line between categories and reviews
+  - Fixed dropdown arrow direction to point downward
+  - Removed admin button from public interface for security
+  - Redesigned login/registration system with triple name validation and phone number
+  - Applied purple gradient theme to reviews interface matching user design specifications
 
 # User Preferences
 

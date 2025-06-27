@@ -144,57 +144,59 @@ const Reviews: React.FC<ReviewsProps> = ({ isOpen, onClose, reviews, onAddReview
 
       {/* Add Review Dialog */}
       <Dialog open={showAddReview} onOpenChange={setShowAddReview}>
-        <DialogContent className="bg-gray-800 border-gray-700 text-white max-w-md">
+        <DialogContent className="bg-gradient-to-br from-purple-900 via-purple-800 to-purple-900 border-purple-600/50 text-white max-w-md rounded-3xl shadow-2xl">
           <DialogHeader>
-            <DialogTitle className="text-center">إضافة تقييم جديد</DialogTitle>
+            <DialogTitle className="text-center text-xl font-semibold mb-6">
+              أضف تقييمك
+            </DialogTitle>
           </DialogHeader>
-          <div className="space-y-4 pt-4">
-            <div className="space-y-2">
-              <Label htmlFor="customerName">اسم العميل</Label>
+          <div className="space-y-6 pt-2">
+            <div className="space-y-3">
+              <Label htmlFor="customerName" className="text-white text-right block">
+                اسمك
+              </Label>
               <Input
                 id="customerName"
                 value={reviewForm.customerName}
                 onChange={(e) => setReviewForm(prev => ({ ...prev, customerName: e.target.value }))}
-                className="bg-gray-700 border-gray-600 text-white"
+                className="bg-purple-800/50 border-purple-600/50 text-white rounded-xl h-14 text-right px-4"
+                placeholder="محمد"
               />
             </div>
 
-            <div className="space-y-2">
-              <Label>التقييم</Label>
-              <div className="flex items-center space-x-2">
-                {renderStars(reviewForm.rating, true, (rating) => 
-                  setReviewForm(prev => ({ ...prev, rating }))
-                )}
-                <span className="text-gray-300">({reviewForm.rating}/5)</span>
-              </div>
-            </div>
-
-            <div className="space-y-2">
-              <Label htmlFor="comment">التعليق</Label>
+            <div className="space-y-3">
+              <Label className="text-white text-right block">
+                تقييمك
+              </Label>
               <Textarea
-                id="comment"
                 value={reviewForm.comment}
                 onChange={(e) => setReviewForm(prev => ({ ...prev, comment: e.target.value }))}
-                className="bg-gray-700 border-gray-600 text-white"
-                rows={3}
+                className="bg-purple-800/50 border-purple-600/50 text-white rounded-xl text-right px-4 py-4 min-h-[120px] resize-none"
+                placeholder="Yuygy tf t jtft"
               />
             </div>
 
-            <div className="flex space-x-2">
-              <Button
-                onClick={() => setShowAddReview(false)}
-                variant="ghost"
-                className="flex-1"
-              >
-                إلغاء
-              </Button>
-              <Button
-                onClick={handleSubmitReview}
-                className="flex-1 bg-blue-600 hover:bg-blue-700"
-              >
-                إضافة التقييم
-              </Button>
+            <div className="space-y-3">
+              <Label className="text-white text-right block">
+                التقييم (1-5)
+              </Label>
+              <Input
+                type="number"
+                min="1"
+                max="5"
+                value={reviewForm.rating}
+                onChange={(e) => setReviewForm(prev => ({ ...prev, rating: parseInt(e.target.value) || 1 }))}
+                className="bg-purple-800/50 border-purple-600/50 text-white rounded-xl h-14 text-right px-4"
+                placeholder="5"
+              />
             </div>
+
+            <Button 
+              onClick={handleSubmitReview}
+              className="w-full bg-gradient-to-r from-green-600 to-green-700 hover:from-green-700 hover:to-green-800 rounded-xl h-14 text-lg font-semibold shadow-lg"
+            >
+              إرسال التقييم
+            </Button>
           </div>
         </DialogContent>
       </Dialog>

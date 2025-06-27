@@ -196,97 +196,75 @@ const Header: React.FC<HeaderProps> = ({ user, onLogin, onLogout, cartItemsCount
         </div>
       </header>
 
-      {/* Login Dialog */}
-      <Dialog open={showLogin} onOpenChange={setShowLogin}>
-        <DialogContent className="bg-gray-800 border-gray-700 text-white max-w-md rounded-2xl">
+      {/* Login/Register Combined Dialog */}
+      <Dialog open={showLogin || showRegister} onOpenChange={(open) => {
+        setShowLogin(false);
+        setShowRegister(false);
+      }}>
+        <DialogContent className="bg-slate-800/95 backdrop-blur-lg border-slate-600/50 text-white max-w-md rounded-3xl shadow-2xl">
           <DialogHeader>
-            <DialogTitle className="text-center">تسجيل الدخول</DialogTitle>
+            <DialogTitle className="text-center text-xl font-semibold mb-6">
+              تسجيل الدخول / التسجيل
+            </DialogTitle>
           </DialogHeader>
-          <div className="space-y-4 pt-4">
-            <div className="space-y-2">
-              <Label htmlFor="phoneNumber">رقم الهاتف</Label>
-              <Input
-                id="phoneNumber"
-                name="phoneNumber"
-                value={loginForm.phoneNumber}
-                onChange={handleLoginFormChange}
-                type="tel"
-                className="bg-gray-700 border-gray-600 text-white rounded-xl"
-                placeholder="05xxxxxxxx"
-              />
-            </div>
-            <div className="space-y-2">
-              <Label htmlFor="password">كلمة المرور</Label>
-              <Input
-                id="password"
-                name="password"
-                value={loginForm.password}
-                onChange={handleLoginFormChange}
-                type="password"
-                className="bg-gray-700 border-gray-600 text-white rounded-xl"
-              />
-            </div>
-            <Button onClick={handleLogin} className="w-full bg-blue-600 hover:bg-blue-700 rounded-xl">
-              تسجيل الدخول
-            </Button>
-          </div>
-        </DialogContent>
-      </Dialog>
-
-      {/* Register Dialog */}
-      <Dialog open={showRegister} onOpenChange={setShowRegister}>
-        <DialogContent className="bg-gray-800 border-gray-700 text-white max-w-md rounded-2xl">
-          <DialogHeader>
-            <DialogTitle className="text-center">إنشاء حساب</DialogTitle>
-          </DialogHeader>
-          <div className="space-y-4 pt-4">
-            <div className="space-y-2">
-              <Label htmlFor="fullName">الاسم الثلاثي</Label>
+          <div className="space-y-6 pt-2">
+            <div className="space-y-3">
+              <Label htmlFor="fullName" className="text-white text-right block">
+                الاسم الثلاثي
+              </Label>
               <Input
                 id="fullName"
                 name="fullName"
                 value={registerForm.fullName}
                 onChange={handleRegisterFormChange}
-                className="bg-gray-700 border-gray-600 text-white rounded-xl"
-                placeholder="الاسم الأول الأوسط الأخير"
+                className="bg-slate-700/70 border-slate-600/50 text-white rounded-xl h-14 text-right px-4"
+                placeholder=""
               />
             </div>
-            <div className="space-y-2">
-              <Label htmlFor="registerPhoneNumber">رقم الهاتف</Label>
-              <Input
-                id="registerPhoneNumber"
-                name="phoneNumber"
-                value={registerForm.phoneNumber}
-                onChange={handleRegisterFormChange}
-                type="tel"
-                className="bg-gray-700 border-gray-600 text-white rounded-xl"
-                placeholder="05xxxxxxxx"
-              />
+            
+            <div className="space-y-3">
+              <Label htmlFor="phoneNumber" className="text-white text-right block">
+                رقم الهاتف (11 رقماً بعد +964)
+              </Label>
+              <div className="flex rounded-xl overflow-hidden bg-slate-700/70 border border-slate-600/50">
+                <div className="bg-slate-600/70 px-4 py-4 text-white font-semibold border-l border-slate-500/50">
+                  +964
+                </div>
+                <Input
+                  id="phoneNumber"
+                  name="phoneNumber"
+                  value={registerForm.phoneNumber}
+                  onChange={handleRegisterFormChange}
+                  type="tel"
+                  className="bg-transparent border-0 text-white rounded-none h-14 text-right px-4 flex-1"
+                  placeholder="7701234567"
+                />
+              </div>
+              <p className="text-slate-400 text-sm text-right">
+                الرجاء إدخال 11 رقماً فقط
+              </p>
             </div>
-            <div className="space-y-2">
-              <Label htmlFor="registerPassword">كلمة المرور</Label>
+
+            <div className="space-y-3">
+              <Label htmlFor="password" className="text-white text-right block">
+                كلمة المرور
+              </Label>
               <Input
-                id="registerPassword"
+                id="password"
                 name="password"
                 value={registerForm.password}
                 onChange={handleRegisterFormChange}
                 type="password"
-                className="bg-gray-700 border-gray-600 text-white rounded-xl"
+                className="bg-slate-700/70 border-slate-600/50 text-white rounded-xl h-14 text-right px-4"
+                placeholder=""
               />
             </div>
-            <div className="space-y-2">
-              <Label htmlFor="confirmPassword">تأكيد كلمة المرور</Label>
-              <Input
-                id="confirmPassword"
-                name="confirmPassword"
-                value={registerForm.confirmPassword}
-                onChange={handleRegisterFormChange}
-                type="password"
-                className="bg-gray-700 border-gray-600 text-white rounded-xl"
-              />
-            </div>
-            <Button onClick={handleRegister} className="w-full bg-green-600 hover:bg-green-700 rounded-xl">
-              إنشاء الحساب
+
+            <Button 
+              onClick={handleRegister} 
+              className="w-full bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 rounded-xl h-14 text-lg font-semibold shadow-lg"
+            >
+              تأكيد التسجيل
             </Button>
           </div>
         </DialogContent>
