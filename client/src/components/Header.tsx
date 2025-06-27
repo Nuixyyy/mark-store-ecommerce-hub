@@ -18,10 +18,10 @@ interface HeaderProps {
 const Header: React.FC<HeaderProps> = ({ user, onLogin, onLogout, cartItemsCount, onCartClick }) => {
   const [showLogin, setShowLogin] = useState(false);
   const [showRegister, setShowRegister] = useState(false);
-  const [loginForm, setLoginForm] = useState({ email: '', password: '' });
+  const [loginForm, setLoginForm] = useState({ phoneNumber: '', password: '' });
   const [registerForm, setRegisterForm] = useState({
     fullName: '',
-    email: '',
+    phoneNumber: '',
     password: '',
     confirmPassword: ''
   });
@@ -36,7 +36,7 @@ const Header: React.FC<HeaderProps> = ({ user, onLogin, onLogout, cartItemsCount
   };
 
   const handleLogin = () => {
-    if (!loginForm.email.trim() || !loginForm.password.trim()) {
+    if (!loginForm.phoneNumber.trim() || !loginForm.password.trim()) {
       toast({
         title: "خطأ",
         description: "يرجى ملء جميع الحقول",
@@ -48,11 +48,11 @@ const Header: React.FC<HeaderProps> = ({ user, onLogin, onLogout, cartItemsCount
     const newUser: FrontendUser = {
       id: Date.now().toString(),
       fullName: 'اسم المستخدم',
-      phoneNumber: loginForm.email, // Using email as phone for demo
-      isAdmin: loginForm.email === 'admin@example.com'
+      phoneNumber: loginForm.phoneNumber,
+      isAdmin: loginForm.phoneNumber === '0501234567'
     };
     onLogin(newUser);
-    setLoginForm({ email: '', password: '' });
+    setLoginForm({ phoneNumber: '', password: '' });
     setShowLogin(false);
 
     toast({
@@ -62,10 +62,21 @@ const Header: React.FC<HeaderProps> = ({ user, onLogin, onLogout, cartItemsCount
   };
 
   const handleRegister = () => {
-    if (!registerForm.fullName.trim() || !registerForm.email.trim() || !registerForm.password.trim() || !registerForm.confirmPassword.trim()) {
+    if (!registerForm.fullName.trim() || !registerForm.phoneNumber.trim() || !registerForm.password.trim() || !registerForm.confirmPassword.trim()) {
       toast({
         title: "خطأ",
         description: "يرجى ملء جميع الحقول",
+        variant: "destructive"
+      });
+      return;
+    }
+
+    // التحقق من أن الاسم يحتوي على ثلاثة أجزاء على الأقل
+    const nameParts = registerForm.fullName.trim().split(' ').filter(part => part.length > 0);
+    if (nameParts.length < 3) {
+      toast({
+        title: "خطأ",
+        description: "يرجى إدخال الاسم الثلاثي كاملاً",
         variant: "destructive"
       });
       return;
@@ -83,31 +94,16 @@ const Header: React.FC<HeaderProps> = ({ user, onLogin, onLogout, cartItemsCount
     const newUser: FrontendUser = {
       id: Date.now().toString(),
       fullName: registerForm.fullName,
-      phoneNumber: registerForm.email, // Using email as phone for demo
+      phoneNumber: registerForm.phoneNumber,
       isAdmin: false
     };
     onLogin(newUser);
-    setRegisterForm({ fullName: '', email: '', password: '', confirmPassword: '' });
+    setRegisterForm({ fullName: '', phoneNumber: '', password: '', confirmPassword: '' });
     setShowRegister(false);
 
     toast({
       title: "تم التسجيل بنجاح",
       description: "تم إنشاء حسابك بنجاح",
-    });
-  };
-
-  const handleAdminLogin = () => {
-    const adminUser: FrontendUser = {
-      id: 'admin-' + Date.now().toString(),
-      fullName: 'مدير النظام',
-      phoneNumber: 'admin@system.com',
-      isAdmin: true
-    };
-    onLogin(adminUser);
-    
-    toast({
-      title: "تم الدخول كمدير",
-      description: "لديك الآن صلاحيات كاملة لإدارة المتجر",
     });
   };
 
@@ -121,47 +117,47 @@ const Header: React.FC<HeaderProps> = ({ user, onLogin, onLogout, cartItemsCount
               <Button
                 onClick={onCartClick}
                 variant="ghost"
-                className="relative bg-purple-700/50 hover:bg-purple-600/70 rounded-2xl px-4 py-2 transition-all duration-300 shadow-lg hover:shadow-purple-500/30"
+                size="sm"
+                className="relative bg-white/10 hover:bg-white/20 text-white rounded-2xl px-4 py-2 transition-all duration-300 hover:scale-105"
               >
-                <ShoppingCart className="h-5 w-5" />
+                <ShoppingCart className="h-5 w-5 mr-2" />
+                <span className="hidden sm:inline">السلة</span>
                 {cartItemsCount > 0 && (
-                  <span className="absolute -top-2 -right-2 bg-gradient-to-r from-red-500 to-pink-500 text-white text-xs rounded-full h-6 w-6 flex items-center justify-center font-bold shadow-lg animate-pulse">
+                  <span className="absolute -top-2 -right-2 bg-gradient-to-r from-red-500 to-red-600 text-white text-xs rounded-full h-6 w-6 flex items-center justify-center shadow-lg animate-pulse">
                     {cartItemsCount}
                   </span>
                 )}
               </Button>
             </div>
 
-            {/* Center - Logo/Title with Admin Button */}
+            {/* Center - Brand */}
             <div className="text-center">
-              <h1 className="text-2xl font-bold bg-gradient-to-r from-purple-200 to-white bg-clip-text text-transparent">
-                متجر إلكتروني
+              <h1 className="text-2xl sm:text-3xl font-bold bg-gradient-to-r from-white via-purple-200 to-white bg-clip-text text-transparent">
+                متجر التقنية
               </h1>
-              <p className="text-purple-300 text-sm">تسوق أفضل المنتجات</p>
-              {!user && (
-                <Button
-                  onClick={handleAdminLogin}
-                  variant="outline"
-                  size="sm"
-                  className="mt-2 bg-yellow-600/20 hover:bg-yellow-600/40 text-yellow-300 hover:text-yellow-200 border-yellow-400/30 rounded-2xl transition-all duration-300"
-                >
-                  <User className="h-4 w-4 mr-1" />
-                  دخول كأدمن
-                </Button>
-              )}
+              <p className="text-purple-200 text-xs sm:text-sm mt-1">
+                أفضل المنتجات التقنية
+              </p>
             </div>
 
-            {/* Right side - User actions */}
-            <div className="flex items-center space-x-2">
+            {/* Right side - User menu */}
+            <div className="flex items-center">
               {user ? (
                 <div className="flex items-center space-x-3">
                   <div className="text-right">
-                    <p className="text-sm font-medium">{user.fullName}</p>
-                    {user.isAdmin && (
-                      <span className="text-xs bg-gradient-to-r from-yellow-400 to-orange-400 text-black px-2 py-1 rounded-full font-semibold">
-                        مدير
+                    <div className="flex items-center space-x-2">
+                      <span className="text-sm font-medium text-white">
+                        {user.fullName}
                       </span>
-                    )}
+                      {user.isAdmin && (
+                        <span className="bg-gradient-to-r from-yellow-400 to-yellow-500 text-black text-xs px-2 py-1 rounded-full font-medium shadow-lg">
+                          مدير
+                        </span>
+                      )}
+                    </div>
+                    <div className="text-xs text-purple-200">
+                      {user.phoneNumber}
+                    </div>
                   </div>
                   <Button
                     onClick={onLogout}
@@ -169,7 +165,8 @@ const Header: React.FC<HeaderProps> = ({ user, onLogin, onLogout, cartItemsCount
                     size="sm"
                     className="bg-red-600/20 hover:bg-red-600/40 text-red-300 hover:text-red-200 rounded-2xl transition-all duration-300"
                   >
-                    <LogOut className="h-4 w-4" />
+                    <LogOut className="h-4 w-4 mr-1" />
+                    خروج
                   </Button>
                 </div>
               ) : (
@@ -192,15 +189,6 @@ const Header: React.FC<HeaderProps> = ({ user, onLogin, onLogout, cartItemsCount
                     <User className="h-4 w-4 mr-1" />
                     دخول
                   </Button>
-                  <Button
-                    onClick={handleAdminLogin}
-                    variant="ghost"
-                    size="sm"
-                    className="bg-yellow-600/20 hover:bg-yellow-600/40 text-yellow-300 hover:text-yellow-200 rounded-2xl transition-all duration-300"
-                  >
-                    <User className="h-4 w-4 mr-1" />
-                    دخول كأدمن
-                  </Button>
                 </div>
               )}
             </div>
@@ -216,14 +204,15 @@ const Header: React.FC<HeaderProps> = ({ user, onLogin, onLogout, cartItemsCount
           </DialogHeader>
           <div className="space-y-4 pt-4">
             <div className="space-y-2">
-              <Label htmlFor="email">البريد الإلكتروني</Label>
+              <Label htmlFor="phoneNumber">رقم الهاتف</Label>
               <Input
-                id="email"
-                name="email"
-                value={loginForm.email}
+                id="phoneNumber"
+                name="phoneNumber"
+                value={loginForm.phoneNumber}
                 onChange={handleLoginFormChange}
-                type="email"
+                type="tel"
                 className="bg-gray-700 border-gray-600 text-white rounded-xl"
+                placeholder="05xxxxxxxx"
               />
             </div>
             <div className="space-y-2">
@@ -252,24 +241,26 @@ const Header: React.FC<HeaderProps> = ({ user, onLogin, onLogout, cartItemsCount
           </DialogHeader>
           <div className="space-y-4 pt-4">
             <div className="space-y-2">
-              <Label htmlFor="fullName">الاسم الكامل</Label>
+              <Label htmlFor="fullName">الاسم الثلاثي</Label>
               <Input
                 id="fullName"
                 name="fullName"
                 value={registerForm.fullName}
                 onChange={handleRegisterFormChange}
                 className="bg-gray-700 border-gray-600 text-white rounded-xl"
+                placeholder="الاسم الأول الأوسط الأخير"
               />
             </div>
             <div className="space-y-2">
-              <Label htmlFor="registerEmail">البريد الإلكتروني</Label>
+              <Label htmlFor="registerPhoneNumber">رقم الهاتف</Label>
               <Input
-                id="registerEmail"
-                name="email"
-                value={registerForm.email}
+                id="registerPhoneNumber"
+                name="phoneNumber"
+                value={registerForm.phoneNumber}
                 onChange={handleRegisterFormChange}
-                type="email"
+                type="tel"
                 className="bg-gray-700 border-gray-600 text-white rounded-xl"
+                placeholder="05xxxxxxxx"
               />
             </div>
             <div className="space-y-2">
@@ -295,7 +286,7 @@ const Header: React.FC<HeaderProps> = ({ user, onLogin, onLogout, cartItemsCount
               />
             </div>
             <Button onClick={handleRegister} className="w-full bg-green-600 hover:bg-green-700 rounded-xl">
-              إنشاء حساب
+              إنشاء الحساب
             </Button>
           </div>
         </DialogContent>

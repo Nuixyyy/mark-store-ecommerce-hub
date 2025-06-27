@@ -69,6 +69,9 @@ const Navigation: React.FC<NavigationProps> = ({
               </Button>
             </div>
 
+            {/* Separator Line */}
+            <div className="w-px bg-purple-400/50 h-12"></div>
+
             {/* Right side - Home and Categories */}
             <div className="flex items-center space-x-3">
               <DropdownMenu>
@@ -79,7 +82,7 @@ const Navigation: React.FC<NavigationProps> = ({
                   >
                     <div className="flex items-center space-x-1">
                       <Grid3X3 className="h-5 w-5 group-hover:scale-110 transition-transform" />
-                      <ChevronDown className="h-3 w-3 group-hover:rotate-180 transition-transform" />
+                      <ChevronDown className="h-3 w-3 rotate-0 transition-transform" />
                     </div>
                     <span className="text-xs font-medium">التصنيفات</span>
                   </Button>
