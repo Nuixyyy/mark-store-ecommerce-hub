@@ -119,6 +119,7 @@ This is a full-stack web application built with React frontend and Express.js ba
   - Updated all components to use type-safe frontend adapters
   - Added easy admin access button for user convenience
   - Established proper client/server separation following security best practices
+  - Added category deletion functionality for admin users with confirmation dialog
 
 # User Preferences
 

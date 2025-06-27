@@ -1,6 +1,6 @@
 
 import React, { useState } from 'react';
-import { Home, ChevronDown, Star, Plus, Grid3X3 } from 'lucide-react';
+import { Home, ChevronDown, Star, Plus, Grid3X3, Trash2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
@@ -15,6 +15,7 @@ interface NavigationProps {
   onCategorySelect: (category: string | null) => void;
   onReviewsClick: () => void;
   onAddCategory: (name: string) => void;
+  onDeleteCategory?: (categoryId: string) => void;
   user: FrontendUser | null;
 }
 
@@ -24,6 +25,7 @@ const Navigation: React.FC<NavigationProps> = ({
   onCategorySelect,
   onReviewsClick,
   onAddCategory,
+  onDeleteCategory,
   user
 }) => {
   const [showAddCategory, setShowAddCategory] = useState(false);
@@ -86,12 +88,34 @@ const Navigation: React.FC<NavigationProps> = ({
                   {categories.map((category) => (
                     <DropdownMenuItem
                       key={category.id}
-                      onClick={() => onCategorySelect(category.name)}
                       className={`text-white hover:bg-purple-600/50 cursor-pointer rounded-xl m-1 transition-all duration-200 ${
                         selectedCategory === category.name ? "bg-purple-600/70" : ""
-                      }`}
+                      } ${user?.isAdmin ? 'flex justify-between items-center' : ''}`}
+                      asChild
                     >
-                      {category.name}
+                      <div>
+                        <span 
+                          onClick={() => onCategorySelect(category.name)}
+                          className="flex-1"
+                        >
+                          {category.name}
+                        </span>
+                        {user?.isAdmin && onDeleteCategory && (
+                          <Button
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              if (window.confirm(`هل أنت متأكد من حذف تصنيف "${category.name}"؟`)) {
+                                onDeleteCategory(category.id);
+                              }
+                            }}
+                            variant="ghost"
+                            size="sm"
+                            className="h-6 w-6 p-0 hover:bg-red-600/50 text-red-400 hover:text-red-300"
+                          >
+                            <Trash2 className="h-3 w-3" />
+                          </Button>
+                        )}
+                      </div>
                     </DropdownMenuItem>
                   ))}
                   {user?.isAdmin && (

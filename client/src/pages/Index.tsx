@@ -127,7 +127,16 @@ const Index = () => {
       }),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['/api/categories'] });
-      toast({ title: "Category added successfully" });
+      toast({ title: "تم إضافة التصنيف بنجاح" });
+    }
+  });
+
+  const deleteCategoryMutation = useMutation({
+    mutationFn: (categoryId: string) => 
+      apiRequest(`/api/categories/${categoryId}`, { method: 'DELETE' }),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['/api/categories'] });
+      toast({ title: "تم حذف التصنيف بنجاح" });
     }
   });
 
@@ -168,6 +177,10 @@ const Index = () => {
 
   const handleAddCategory = (name: string) => {
     createCategoryMutation.mutate({ name });
+  };
+
+  const handleDeleteCategory = (categoryId: string) => {
+    deleteCategoryMutation.mutate(categoryId);
   };
 
   const handleAddToCart = (product: FrontendProduct) => {
@@ -298,6 +311,7 @@ const Index = () => {
         onCategorySelect={setSelectedCategory}
         onReviewsClick={() => setShowReviews(true)}
         onAddCategory={handleAddCategory}
+        onDeleteCategory={handleDeleteCategory}
         user={user}
       />
 

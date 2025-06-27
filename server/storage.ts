@@ -16,6 +16,7 @@ export interface IStorage {
   getAllCategories(): Promise<Category[]>;
   createCategory(category: InsertCategory): Promise<Category>;
   getCategory(id: number): Promise<Category | undefined>;
+  deleteCategory(id: number): Promise<boolean>;
 
   // Product methods
   getAllProducts(): Promise<Product[]>;
@@ -106,6 +107,10 @@ export class MemStorage implements IStorage {
 
   async getCategory(id: number): Promise<Category | undefined> {
     return this.categories.get(id);
+  }
+
+  async deleteCategory(id: number): Promise<boolean> {
+    return this.categories.delete(id);
   }
 
   // Product methods
