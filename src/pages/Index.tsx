@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { Plus } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -7,6 +6,7 @@ import Header from '@/components/Header';
 import SearchBar from '@/components/SearchBar';
 import ProductCard from '@/components/ProductCard';
 import Cart from '@/components/Cart';
+import OrderForm from '@/components/OrderForm';
 import AdminPanel from '@/components/AdminPanel';
 import Navigation from '@/components/Navigation';
 import Reviews from '@/components/Reviews';
@@ -29,6 +29,7 @@ const Index = () => {
   const [showAdminPanel, setShowAdminPanel] = useState(false);
   const [showReviews, setShowReviews] = useState(false);
   const [editingProduct, setEditingProduct] = useState<Product | null>(null);
+  const [showOrderForm, setShowOrderForm] = useState(false);
   const { toast } = useToast();
 
   // Load data from localStorage on component mount
@@ -151,12 +152,13 @@ const Index = () => {
   };
 
   const handleCheckout = () => {
-    toast({
-      title: "تم إتمام الشراء",
-      description: "شكراً لك! سيتم التواصل معك قريباً",
-    });
-    setCartItems([]);
     setShowCart(false);
+    setShowOrderForm(true);
+  };
+
+  const handleOrderConfirm = () => {
+    setCartItems([]);
+    setShowOrderForm(false);
   };
 
   const handleAddReview = (reviewData: Omit<Review, 'id' | 'date'>) => {
@@ -249,6 +251,15 @@ const Index = () => {
         onUpdateQuantity={handleUpdateQuantity}
         onRemoveItem={handleRemoveFromCart}
         onCheckout={handleCheckout}
+        user={user}
+      />
+
+      <OrderForm
+        isOpen={showOrderForm}
+        onClose={() => setShowOrderForm(false)}
+        items={cartItems}
+        user={user}
+        onOrderConfirm={handleOrderConfirm}
       />
 
       <AdminPanel

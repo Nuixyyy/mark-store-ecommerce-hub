@@ -5,7 +5,7 @@ import { Button } from '@/components/ui/button';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { Separator } from '@/components/ui/separator';
-import type { CartItem } from '@/types';
+import type { CartItem, User } from '@/types';
 
 interface CartProps {
   isOpen: boolean;
@@ -14,6 +14,7 @@ interface CartProps {
   onUpdateQuantity: (productId: string, quantity: number) => void;
   onRemoveItem: (productId: string) => void;
   onCheckout: () => void;
+  user: User | null;
 }
 
 const Cart: React.FC<CartProps> = ({
@@ -22,7 +23,8 @@ const Cart: React.FC<CartProps> = ({
   items,
   onUpdateQuantity,
   onRemoveItem,
-  onCheckout
+  onCheckout,
+  user
 }) => {
   const total = items.reduce((sum, item) => sum + (item.price * item.quantity), 0);
 
