@@ -132,12 +132,23 @@ const Header: React.FC<HeaderProps> = ({ user, onLogin, onLogout, cartItemsCount
               </Button>
             </div>
 
-            {/* Center - Logo/Title */}
+            {/* Center - Logo/Title with Admin Button */}
             <div className="text-center">
               <h1 className="text-2xl font-bold bg-gradient-to-r from-purple-200 to-white bg-clip-text text-transparent">
                 متجر إلكتروني
               </h1>
               <p className="text-purple-300 text-sm">تسوق أفضل المنتجات</p>
+              {!user && (
+                <Button
+                  onClick={handleAdminLogin}
+                  variant="outline"
+                  size="sm"
+                  className="mt-2 bg-yellow-600/20 hover:bg-yellow-600/40 text-yellow-300 hover:text-yellow-200 border-yellow-400/30 rounded-2xl transition-all duration-300"
+                >
+                  <User className="h-4 w-4 mr-1" />
+                  دخول كأدمن
+                </Button>
+              )}
             </div>
 
             {/* Right side - User actions */}
