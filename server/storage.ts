@@ -56,15 +56,7 @@ export class MemStorage implements IStorage {
   }
 
   private initializeDefaultData() {
-    const defaultCategories = [
-      { name: 'إلكترونيات' },
-      { name: 'ملابس' },
-      { name: 'منزل وحديقة' }
-    ];
-
-    defaultCategories.forEach(cat => {
-      this.createCategory(cat);
-    });
+    // No default categories - start with empty store
   }
 
   // User methods

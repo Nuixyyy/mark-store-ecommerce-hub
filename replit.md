@@ -129,6 +129,9 @@ This is a full-stack web application built with React frontend and Express.js ba
   - Enhanced login/registration UI with dark theme, blur effects, and +964 country code prefix
   - Darkened purple colors throughout application for better visual appeal
   - Combined login/registration forms into single dialog with improved UX
+  - Implemented secure admin system with secret code "MARK2025ADMIN" for admin access
+  - Removed default categories (electronics, clothing, home & garden) for clean start
+  - Added optional admin code field in registration with secure validation
 
 # User Preferences
 

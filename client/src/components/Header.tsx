@@ -23,7 +23,8 @@ const Header: React.FC<HeaderProps> = ({ user, onLogin, onLogout, cartItemsCount
     fullName: '',
     phoneNumber: '',
     password: '',
-    confirmPassword: ''
+    confirmPassword: '',
+    adminCode: ''
   });
   const { toast } = useToast();
 
@@ -91,19 +92,22 @@ const Header: React.FC<HeaderProps> = ({ user, onLogin, onLogout, cartItemsCount
       return;
     }
 
+    // التحقق من كود المدير السري
+    const isAdmin = registerForm.adminCode === 'MARK2025ADMIN';
+    
     const newUser: FrontendUser = {
       id: Date.now().toString(),
       fullName: registerForm.fullName,
       phoneNumber: registerForm.phoneNumber,
-      isAdmin: false
+      isAdmin: isAdmin
     };
     onLogin(newUser);
-    setRegisterForm({ fullName: '', phoneNumber: '', password: '', confirmPassword: '' });
+    setRegisterForm({ fullName: '', phoneNumber: '', password: '', confirmPassword: '', adminCode: '' });
     setShowRegister(false);
 
     toast({
       title: "تم التسجيل بنجاح",
-      description: "تم إنشاء حسابك بنجاح",
+      description: isAdmin ? "مرحباً بك كمدير للمتجر" : "مرحباً بك في مارك ستور",
     });
   };
 
@@ -255,6 +259,24 @@ const Header: React.FC<HeaderProps> = ({ user, onLogin, onLogout, cartItemsCount
                 className="bg-slate-700/70 border-slate-600/50 text-white rounded-xl h-14 text-right px-4"
                 placeholder=""
               />
+            </div>
+
+            <div className="space-y-3">
+              <Label htmlFor="adminCode" className="text-white text-right block">
+                كود المدير (اختياري)
+              </Label>
+              <Input
+                id="adminCode"
+                name="adminCode"
+                value={registerForm.adminCode}
+                onChange={handleRegisterFormChange}
+                type="password"
+                className="bg-slate-700/70 border-slate-600/50 text-white rounded-xl h-14 text-right px-4"
+                placeholder="اتركه فارغاً إذا كنت مستخدماً عادياً"
+              />
+              <p className="text-slate-400 text-sm text-right">
+                أدخل الكود السري للحصول على صلاحيات المدير
+              </p>
             </div>
 
             <Button 
