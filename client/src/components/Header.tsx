@@ -217,32 +217,40 @@ const Header: React.FC<HeaderProps> = ({ user, onLogin, onLogout, cartItemsCount
                   </DropdownMenuContent>
                 </DropdownMenu>
               ) : (
-                <div className="flex space-x-2">
-                  <Button
-                    onClick={() => {
-                      setIsLoginMode(true);
-                      setShowLogin(true);
-                    }}
-                    variant="ghost"
-                    size="sm"
-                    className="bg-white/10 hover:bg-white/20 text-white rounded-2xl transition-all duration-300"
-                  >
-                    <User className="h-4 w-4 mr-2" />
-                    <span className="hidden sm:inline">دخول</span>
-                  </Button>
-                  <Button
-                    onClick={() => {
-                      setIsLoginMode(false);
-                      setShowLogin(true);
-                    }}
-                    variant="ghost"
-                    size="sm"
-                    className="bg-purple-600/30 hover:bg-purple-600/50 text-white rounded-2xl transition-all duration-300"
-                  >
-                    <UserPlus className="h-4 w-4 mr-2" />
-                    <span className="hidden sm:inline">تسجيل</span>
-                  </Button>
-                </div>
+                <DropdownMenu>
+                  <DropdownMenuTrigger asChild>
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      className="relative bg-white/10 hover:bg-white/20 text-white rounded-full p-2 transition-all duration-300 hover:scale-105"
+                    >
+                      <User className="h-6 w-6" />
+                      <ChevronDown className="h-3 w-3 absolute -bottom-1 -right-1 bg-purple-600 rounded-full p-0.5" />
+                    </Button>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent className="bg-purple-800/95 backdrop-blur-lg border-purple-500/30 min-w-[160px] rounded-2xl shadow-2xl mt-2" align="start">
+                    <DropdownMenuItem 
+                      onClick={() => {
+                        setIsLoginMode(true);
+                        setShowLogin(true);
+                      }}
+                      className="text-white hover:bg-purple-600/50 cursor-pointer rounded-xl m-1 transition-all duration-200 p-3"
+                    >
+                      <User className="h-4 w-4 mr-3" />
+                      تسجيل الدخول
+                    </DropdownMenuItem>
+                    <DropdownMenuItem 
+                      onClick={() => {
+                        setIsLoginMode(false);
+                        setShowLogin(true);
+                      }}
+                      className="text-white hover:bg-purple-600/50 cursor-pointer rounded-xl m-1 transition-all duration-200 p-3"
+                    >
+                      <UserPlus className="h-4 w-4 mr-3" />
+                      إنشاء حساب جديد
+                    </DropdownMenuItem>
+                  </DropdownMenuContent>
+                </DropdownMenu>
               )}
             </div>
 
